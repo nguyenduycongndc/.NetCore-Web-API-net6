@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qZz/chC2ixTSQbYzxVcKDkcqdZRh+L/uAHHWhX7OOkIlO8+h/CNfeLNYvpyM9z2BFT1TAiOC1+0oEXI1LRoJ1A==",
+  "dgSpecHash": "mlP3QfIyURthVCtdlhkfNfw0r+zsRbPxLraflO5pEbVXJiv2UWX+w//UpI3BQBbUQLyr0SnFycUmGz6q0q9XXw==",
   "success": true,
-  "projectFilePath": "E:\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+  "projectFilePath": "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\haicu\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\haicu\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.9\\microsoft.aspnetcore.authentication.jwtbearer.6.0.9.nupkg.sha512",

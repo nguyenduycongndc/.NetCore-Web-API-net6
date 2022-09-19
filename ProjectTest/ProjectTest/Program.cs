@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ProjectTest.Data;
+using ProjectTest.Repo.Interface;
+using ProjectTest.Repo;
+using ProjectTest.Services.Interface;
+using ProjectTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +17,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SqlDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDbConnectionString")));
 
-
+builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<IUserService, UserServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +30,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseAuthentication();    
 app.UseAuthorization();
 
 app.MapControllers();

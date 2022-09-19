@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\ProjectTest\\ProjectTest\\ProjectTest.csproj": {}
+    "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\ProjectTest.csproj": {}
   },
   "projects": {
-    "E:\\ProjectTest\\ProjectTest\\ProjectTest.csproj": {
+    "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\ProjectTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+        "projectUniqueName": "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
         "projectName": "ProjectTest",
-        "projectPath": "E:\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
+        "projectPath": "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\ProjectTest.csproj",
         "packagesPath": "C:\\Users\\haicu\\.nuget\\packages\\",
-        "outputPath": "E:\\ProjectTest\\ProjectTest\\obj\\",
+        "outputPath": "E:\\.NetCore-Web-API-net6\\ProjectTest\\ProjectTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
