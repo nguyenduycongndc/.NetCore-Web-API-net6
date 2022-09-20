@@ -15,18 +15,25 @@ namespace ProjectTest.Services
         }
         public UserRsModel GetAllUser(SearchUserModel searchUserModel)
         {
-            var qr = userRepo.GetAll();
+            var qr = userRepo.GetAll(searchUserModel);
             List<UserModel> lst = new List<UserModel>();
-            var listUser = qr.Where(x => (x.UserName.ToLower().Contains(searchUserModel.UserName.ToLower()) || string.IsNullOrEmpty(searchUserModel.UserName))
-                                          && (searchUserModel.IsActive == -1 || (searchUserModel.IsActive == 1 ? x.IsActive == 1 : x.IsActive == 0))).Select(x => new UserModel()
-                                          {
-                                              Id = x.Id,
-                                              UserName = x.UserName,
-                                              FullName = x.FullName,
-                                              IsActive = x.IsActive,
-                                          }).OrderBy(x => x.Id).ToList();
-            var count = listUser.Count();
-            lst = listUser.Skip(searchUserModel.StartNumber).Take(searchUserModel.PageSize).ToList();
+            //var listUser = qr.Where(x => (x.UserName.ToLower().Contains(searchUserModel.UserName.ToLower()) || string.IsNullOrEmpty(searchUserModel.UserName))
+            //                              && (searchUserModel.IsActive == -1 || (searchUserModel.IsActive == 1 ? x.IsActive == 1 : x.IsActive == 0))).Select(x => new UserModel()
+            //                              {
+            //                                  Id = x.Id,
+            //                                  UserName = x.UserName,
+            //                                  FullName = x.FullName,
+            //                                  IsActive = x.IsActive,
+            //                              }).OrderBy(x => x.Id).ToList();
+            //var count = listUser.Count();
+            //lst = listUser.Skip(searchUserModel.StartNumber).Take(searchUserModel.PageSize).ToList();
+            var listUser = qr.Select(x => new UserModel()
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                FullName = x.FullName,
+                IsActive = x.IsActive,
+            }).OrderBy(x => x.Id).ToList();
             var data = new UserRsModel()
             {
                 Data = lst,
