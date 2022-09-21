@@ -34,4 +34,22 @@ namespace ProjectTest.Model
         public string Email { get; set; }
         public int? RoleId { get; set; }
     }
+    public class CreateModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int RoleId { get; set; }
+    }
+    public class LoginModel
+    {
+        public string UserName { get; set; }
+
+        public string Token { get; set; }
+    }
+    public class InputLoginModel
+    {
+        public string UserName { get; set; }
+
+        public string PassWord { get; set; }
+    }
 }

@@ -84,6 +84,9 @@ E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Microsoft.Iden
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Microsoft.OpenApi.dll
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\NLog.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\NLog.Extensions.Logging.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\NLog.Web.AspNetCore.dll
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -122,3 +125,9 @@ E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\obj\Debug\net6.0\refint\Project
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\obj\Debug\net6.0\ProjectTest.pdb
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\obj\Debug\net6.0\ProjectTest.genruntimeconfig.cache
 E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\obj\Debug\net6.0\ref\ProjectTest.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\System.Web.Razor.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\System.Web.Helpers.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\System.Web.WebPages.dll
+E:\.NetCore-Web-API-net6\ProjectTest\ProjectTest\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
