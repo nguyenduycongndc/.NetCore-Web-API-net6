@@ -15,17 +15,29 @@ namespace ProjectTest.Repo
         {
             this.context = context;
         }
-        public List<Users> GetAll(SearchUserModel searchUserModel)
+        public async Task<List<Users>> GetAll(SearchUserModel searchUserModel)
         {
             //return context.Users.ToList();
             List<Users> list;
             //string sql = "EXECUTE SP_USER";
 
-            string sql = "EXECUTE SP_USER" +
-            "@user_name = '" + searchUserModel.UserName + "'," +
-            "@is_active = " + searchUserModel.IsActive + "," +
-            "@start_number = " + searchUserModel.StartNumber + "," +
-            "@page_size = " + searchUserModel.PageSize + ",";
+            string sql = "EXECUTE SP_USER @user_name, @is_active, @start_number, @page_size";
+
+            //string sql = "EXECUTE SP_USER" +
+            //"@user_name = '" + searchUserModel.UserName + "'," +
+            //"@is_active = " + searchUserModel.IsActive + "," +
+            //"@start_number = " + searchUserModel.StartNumber + "," +
+            //"@page_size = " + searchUserModel.PageSize + ",";
+
+
+            List<SqlParameter> parms = new List<SqlParameter>
+            { 
+                // Create parameters    
+                new SqlParameter { ParameterName = "@user_name", Value = searchUserModel.UserName },
+                new SqlParameter { ParameterName = "@is_active", Value = searchUserModel.IsActive },
+                new SqlParameter { ParameterName = "@start_number", Value = searchUserModel.StartNumber },
+                new SqlParameter { ParameterName = "@page_size", Value = searchUserModel.PageSize }
+            };
 
             //List<SqlParameter> LstParam = new List<SqlParameter>();
             //SqlParameter param = new SqlParameter();
@@ -38,7 +50,7 @@ namespace ProjectTest.Repo
             //param = new SqlParameter("@page_size", searchUserModel.PageSize);
             //LstParam.Add(param);
 
-            list = context.Users.FromSqlRaw<Users>(sql).ToList();
+            list = await context.Users.FromSqlRaw<Users>(sql,parms.ToArray()).ToListAsync();
             //Debugger.Break();
             return list;
         }

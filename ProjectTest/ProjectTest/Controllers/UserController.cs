@@ -23,7 +23,7 @@ namespace ProjectTest.Controllers
         }
         [HttpPost]
         [Route("Search")]
-        public UserRsModel Search([FromBody] SearchUserModel searchUserModel)
+        public async Task<UserRsModel> Search([FromBody] SearchUserModel searchUserModel)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace ProjectTest.Controllers
                 //{
                 //    return null;
                 //}
-                return _userService.GetAllUser(searchUserModel);
+                return await _userService.GetAllUser(searchUserModel);
             }
             catch (Exception ex)
             {

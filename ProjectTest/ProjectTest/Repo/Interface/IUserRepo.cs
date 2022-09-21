@@ -5,6 +5,6 @@ namespace ProjectTest.Repo.Interface
 {
     public interface IUserRepo
     {
-        List<Users> GetAll(SearchUserModel searchUserModel);
+        Task<List<Users>> GetAll(SearchUserModel searchUserModel);
     }
 }
