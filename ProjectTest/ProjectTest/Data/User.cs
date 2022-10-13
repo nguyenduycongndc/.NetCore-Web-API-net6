@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace ProjectTest.Data
@@ -11,7 +12,7 @@ namespace ProjectTest.Data
     {
         public Users()
         {
-            this.UsersRoles = new HashSet<UsersRoles>();
+            UsersRoles = new HashSet<UsersRoles>();
         }
         [Key]
         [Column("id")]
@@ -21,7 +22,7 @@ namespace ProjectTest.Data
 
         [Column("full_name")]
         [JsonPropertyName("full_name")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         [Column("user_name")]
         [JsonPropertyName("user_name")]
@@ -45,7 +46,7 @@ namespace ProjectTest.Data
 
         [Column("email")]
         [JsonPropertyName("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Column("password")]
         [JsonPropertyName("password")]
@@ -53,7 +54,7 @@ namespace ProjectTest.Data
 
         [Column("salt")]
         [JsonPropertyName("salt")]
-        public string SaltKey { get; set; }
+        public string? SaltKey { get; set; }
 
         [Column("created_by")]
         [JsonPropertyName("created_by")]

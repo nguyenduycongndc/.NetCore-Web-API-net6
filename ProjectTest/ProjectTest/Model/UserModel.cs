@@ -17,7 +17,7 @@ namespace ProjectTest.Model
     public class SearchUserModel
     {
         [JsonPropertyName("user_name")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         [JsonPropertyName("is_active")]
         public int IsActive { get; set; }
         [JsonPropertyName("start_number")]
@@ -51,5 +51,14 @@ namespace ProjectTest.Model
         public string UserName { get; set; }
 
         public string PassWord { get; set; }
+    }
+    public class UserCreateModel
+    {
+        public string UserName { get; set; }
+
+        public string PassWord { get; set; }
+        public string SaltKey { get; set; }
+        public int RoleId { get; set; }
+        public int CreatedBy { get; set; }
     }
 }

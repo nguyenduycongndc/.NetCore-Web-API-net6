@@ -62,24 +62,33 @@ namespace ProjectTest.Services
                 ////salt = Crypto.GenerateSalt(); // salt key
                 //var password = input.Password/* + salt*/;
                 //hashedPassword = EncodeServerName(password);
-                Users us = new Users()
+
+
+
+                UserCreateModel us = new UserCreateModel()
                 {
-                    FullName = input.UserName.Trim(),
-                    UserName = input.UserName.ToLower(),
-                    Password = hashedPassword,
-                    IsActive = 1,
-                    DateOfJoining = DateTime.Now,
-                    CreatedAt = DateTime.Now,
+                    UserName = input.UserName.Trim().ToLower(),
+                    PassWord = hashedPassword,
                     SaltKey = salt,
                     RoleId = input.RoleId,
                     CreatedBy = _userInfo.Id,
                 };
-                var _userrole = new UsersRoles
-                {
-                    roles_id = input.RoleId,
-                    Users = us
-                };
-                return await userRepo.CreateUs(us, _userrole);
+                //Users us = new Users()
+                //{
+                //    FullName = input.UserName.Trim(),
+                //    UserName = input.UserName.ToLower(),
+                //    Password = hashedPassword,
+                //    IsActive = 1,
+                //    SaltKey = salt,
+                //    RoleId = input.RoleId,
+                //    CreatedBy = _userInfo.Id,
+                //};
+                //var _userrole = new UsersRoles
+                //{
+                //    roles_id = input.RoleId,
+                //    Users = us
+                //};
+                return await userRepo.CreateUs(us);
             }
             catch (Exception ex)
             {

@@ -21,64 +21,71 @@ namespace ProjectTest.Repo
             //return context.Users.ToList();
             List<Users> list;
             //string sql = "EXECUTE SP_USER";
+            try
+            {
+                string sql = "EXECUTE SP_USER @user_name, @is_active, @start_number, @page_size";
 
-            string sql = "EXECUTE SP_USER @user_name, @is_active, @start_number, @page_size";
-
-            //string sql = "EXECUTE SP_USER" +
-            //"@user_name = '" + searchUserModel.UserName + "'," +
-            //"@is_active = " + searchUserModel.IsActive + "," +
-            //"@start_number = " + searchUserModel.StartNumber + "," +
-            //"@page_size = " + searchUserModel.PageSize + ",";
+                ////string sql = "EXECUTE SP_USER" +
+                ////"@user_name = '" + searchUserModel.UserName + "'," +
+                ////"@is_active = " + searchUserModel.IsActive + "," +
+                ////"@start_number = " + searchUserModel.StartNumber + "," +
+                ////"@page_size = " + searchUserModel.PageSize + ",";
 
 
-            List<SqlParameter> parms = new List<SqlParameter>
-            { 
-                // Create parameters    
-                new SqlParameter { ParameterName = "@user_name", Value = searchUserModel.UserName },
-                new SqlParameter { ParameterName = "@is_active", Value = searchUserModel.IsActive },
-                new SqlParameter { ParameterName = "@start_number", Value = searchUserModel.StartNumber },
-                new SqlParameter { ParameterName = "@page_size", Value = searchUserModel.PageSize }
-            };
+                List<SqlParameter> parms = new List<SqlParameter>
+                { 
+                    // Create parameters    
+                    new SqlParameter { ParameterName = "@user_name", Value = searchUserModel.UserName },
+                    new SqlParameter { ParameterName = "@is_active", Value = searchUserModel.IsActive },
+                    new SqlParameter { ParameterName = "@start_number", Value = searchUserModel.StartNumber },
+                    new SqlParameter { ParameterName = "@page_size", Value = searchUserModel.PageSize }
+                };
+                list = await context.Users.FromSqlRaw<Users>(sql,parms.ToArray()).ToListAsync();
 
-            //List<SqlParameter> LstParam = new List<SqlParameter>();
-            //SqlParameter param = new SqlParameter();
-            //param = new SqlParameter("@user_name", searchUserModel.UserName);
-            //LstParam.Add(param);
-            //param = new SqlParameter("@is_active", searchUserModel.IsActive);
-            //LstParam.Add(param);
-            //param = new SqlParameter("@start_number", searchUserModel.StartNumber);
-            //LstParam.Add(param);
-            //param = new SqlParameter("@page_size", searchUserModel.PageSize);
-            //LstParam.Add(param);
+                ////List<SqlParameter> LstParam = new List<SqlParameter>();
+                ////SqlParameter param = new SqlParameter();
+                ////param = new SqlParameter("@user_name", searchUserModel.UserName);
+                ////LstParam.Add(param);
+                ////param = new SqlParameter("@is_active", searchUserModel.IsActive);
+                ////LstParam.Add(param);
+                ////param = new SqlParameter("@start_number", searchUserModel.StartNumber);
+                ////LstParam.Add(param);
+                ////param = new SqlParameter("@page_size", searchUserModel.PageSize);
+                ////LstParam.Add(param);
 
-            list = await context.Users.FromSqlRaw<Users>(sql,parms.ToArray()).ToListAsync();
-            //Debugger.Break();
-            return list;
+                //list = await context.Users.FromSqlRaw<Users>(sql,parms.ToArray()).ToListAsync();
+                //Debugger.Break();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
-        public async Task<bool> CreateUs(Users user, UsersRoles usersRoles)
+        //public async Task<bool> CreateUs(Users user, UsersRoles usersRoles)
+        public async Task<bool> CreateUs(UserCreateModel user)
         {
-            
+            try
+            {
+                string sql = "EXECUTE SP_CREATE_USER @user_name, @role_id, @password, @salt, @created_by";
 
-            string sql = "EXECUTE SP_CREATE_USER @user_name, @full_name, @date_of_joining, @role_id, @is_active, @password, @salt, @created_by, @created_at";
+                List<SqlParameter> parms = new List<SqlParameter>
+                { 
+                    // Create parameters    
+                    new SqlParameter { ParameterName = "@user_name", Value = user.UserName },
+                    new SqlParameter { ParameterName = "@role_id", Value = user.RoleId },
+                    new SqlParameter { ParameterName = "@password", Value = user.PassWord },
+                    new SqlParameter { ParameterName = "@salt", Value = user.SaltKey },
+                    new SqlParameter { ParameterName = "@created_by", Value = user.CreatedBy },
+                };
 
-           
-            List<SqlParameter> parms = new List<SqlParameter>
-            { 
-                // Create parameters    
-                new SqlParameter { ParameterName = "@user_name", Value = user.UserName },
-                new SqlParameter { ParameterName = "@full_name", Value = user.FullName },
-                new SqlParameter { ParameterName = "@date_of_joining", Value = user.DateOfJoining },
-                new SqlParameter { ParameterName = "@role_id", Value = user.RoleId },
-                new SqlParameter { ParameterName = "@is_active", Value = user.IsActive },
-                new SqlParameter { ParameterName = "@password", Value = user.Password },
-                new SqlParameter { ParameterName = "@salt", Value = user.SaltKey },
-                new SqlParameter { ParameterName = "@created_by", Value = user.CreatedBy },
-                new SqlParameter { ParameterName = "@created_at", Value = user.CreatedAt },
-            };
-
-            var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
-            var xxxx = dt;
-            return true;
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public async Task<List<Users>> CheckUser(string userName)
         {
