@@ -12,7 +12,7 @@ using ProjectTest.Model;
 using ProjectTest.Repo.Interface;
 using ProjectTest.Services.Interface;
 using Microsoft.Extensions.Configuration;
-
+using System.Web.Helpers;
 
 namespace ProjectTest.Services
 {
@@ -33,6 +33,7 @@ namespace ProjectTest.Services
             try
             {
                 LoginModel userdetai = null;
+
                 if (inputModel.UserName != "" && inputModel.UserName != null && inputModel.PassWord != "" && inputModel.PassWord != null)
                 {
                     var user =  userRepo.GetDetailByName(inputModel);
@@ -56,7 +57,7 @@ namespace ProjectTest.Services
                 return null;
             }
         }
-
+        
         public string GenerateJwt(Users user)
         {
 

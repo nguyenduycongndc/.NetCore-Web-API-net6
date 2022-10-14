@@ -61,4 +61,11 @@ namespace ProjectTest.Model
         public int RoleId { get; set; }
         public int CreatedBy { get; set; }
     }
+
+    public class OutModel
+    {
+        public string UserName { get; set; }
+
+        public string PassWord { get; set; }
+    }
 }

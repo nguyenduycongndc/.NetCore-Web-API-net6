@@ -5,6 +5,7 @@ using ProjectTest.Model;
 using ProjectTest.Repo.Interface;
 using System.Diagnostics;
 using System.Text;
+using System.Web.Helpers;
 
 namespace ProjectTest.Repo
 {
@@ -23,7 +24,7 @@ namespace ProjectTest.Repo
             //string sql = "EXECUTE SP_USER";
             try
             {
-                string sql = "EXECUTE SP_USER @user_name, @is_active, @start_number, @page_size";
+                string sql = "EXECUTE SP_SEARCH_USER @user_name, @is_active, @start_number, @page_size";
 
                 ////string sql = "EXECUTE SP_USER" +
                 ////"@user_name = '" + searchUserModel.UserName + "'," +
@@ -122,7 +123,6 @@ namespace ProjectTest.Repo
         {
             var query = (from x in context.Users
                          where x.UserName.Equals(inputModel.UserName) && x.Password.Equals(inputModel.PassWord)
-                         //where x.UserName.Equals(inputModel.UserName) && x.Password.Equals(EncodeServerName(inputModel.PassWord))
                          select new Users
                          {
                              Id = x.Id,
@@ -134,10 +134,6 @@ namespace ProjectTest.Repo
                          }).FirstOrDefault();
 
             return query;
-        }
-        public static string EncodeServerName(string serverName)
-        {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         }
     }
 }
