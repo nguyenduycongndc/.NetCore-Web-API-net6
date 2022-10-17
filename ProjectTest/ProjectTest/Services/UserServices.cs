@@ -39,9 +39,15 @@ namespace ProjectTest.Services
             try
             {
                 var checkUser = await userRepo.CheckUser(input.UserName);
+                var checkRoles = await userRepo.CheckRoles(input.RoleId);
                 if (checkUser.Count() > 0)
                 {
                     _logger.LogError("Tài khoản đã tồn tại");
+                    return false;
+                }
+                if (checkRoles.Count() == 0)
+                {
+                    _logger.LogError("Không tồn tại quyền này");
                     return false;
                 }
                 if (input.UserName == "" || input.UserName == null || input.Password == "" || input.Password == null)
@@ -55,19 +61,12 @@ namespace ProjectTest.Services
                     var pass = input.Password;
                     salt = Crypto.GenerateSalt(); // salt key
                     var password = input.Password + salt;
-                    hashedPassword = Crypto.HashPassword(password);
+                    hashedPassword = Crypto.HashPassword(/*input.Password*/password);
                 }
-                //string salt = "123";
-                //string hashedPassword = "";
-                ////salt = Crypto.GenerateSalt(); // salt key
-                //var password = input.Password/* + salt*/;
-                //hashedPassword = EncodeServerName(password);
-
-
 
                 UserCreateModel us = new UserCreateModel()
                 {
-                    UserName = input.UserName.Trim().ToLower(),
+                    UserName = input.UserName.Trim(),
                     PassWord = hashedPassword,
                     SaltKey = salt,
                     RoleId = input.RoleId,
@@ -120,9 +119,9 @@ namespace ProjectTest.Services
                 return null;
             }
         }
-        public static string EncodeServerName(string serverName)
-        {
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
-        }
+        //public static string EncodeServerName(string serverName)
+        //{
+        //    return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
+        //}
     }
 }

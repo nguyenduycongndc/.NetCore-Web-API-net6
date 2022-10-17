@@ -102,6 +102,20 @@ namespace ProjectTest.Repo
             list = await context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToListAsync();
             return list;
         }
+        public async Task<List<Roles>> CheckRoles(int RolesId)
+        {
+            List<Roles> list;
+            string sql = "EXECUTE SP_CHECK_ROLES @roles_id";
+
+
+            List<SqlParameter> parms = new List<SqlParameter>
+            { 
+                // Create parameters    
+                new SqlParameter { ParameterName = "@roles_id", Value = RolesId },
+            };
+            list = await context.Roles.FromSqlRaw<Roles>(sql, parms.ToArray()).ToListAsync();
+            return list;
+        }
         public Users GetDetail(int id)
         {
             var query = (from x in context.Users
@@ -122,7 +136,7 @@ namespace ProjectTest.Repo
         public Users GetDetailByName(InputLoginModel inputModel)
         {
             var query = (from x in context.Users
-                         where x.UserName.Equals(inputModel.UserName) && x.Password.Equals(inputModel.PassWord)
+                         where x.UserName.Equals(inputModel.UserName) && x.IsActive.Equals(1)
                          select new Users
                          {
                              Id = x.Id,
@@ -131,6 +145,7 @@ namespace ProjectTest.Repo
                              Password = x.Password,
                              IsActive = x.IsActive,
                              RoleId = x.RoleId,
+                             SaltKey = x.SaltKey,
                          }).FirstOrDefault();
 
             return query;

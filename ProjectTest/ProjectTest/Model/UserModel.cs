@@ -42,9 +42,11 @@ namespace ProjectTest.Model
     }
     public class LoginModel
     {
-        public string UserName { get; set; }
+        //public string? UserName { get; set; }
 
-        public string Token { get; set; }
+        public string? Token { get; set; }
+        public string? Message { get; set; }
+        public int Code { get; set; }
     }
     public class InputLoginModel
     {
