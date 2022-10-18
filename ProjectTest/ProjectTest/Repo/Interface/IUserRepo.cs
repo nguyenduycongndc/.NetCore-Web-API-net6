@@ -8,9 +8,12 @@ namespace ProjectTest.Repo.Interface
         Task<List<Users>> GetAll(SearchUserModel searchUserModel);
         //Task<bool> CreateUs(Users user, UsersRoles usersRoles);
         Task<bool> CreateUs(UserCreateModel us);
-        Task<List<Users>> CheckUser(string userName);
+        List<Users> CheckUser(string userName);
         Task<List<Roles>> CheckRoles(int RolesId);
-        public Users GetDetail(int id);
-        Users GetDetailByName(InputLoginModel inputModel);
+        List<Users> GetDetail(int id);
+        Task<bool> UpdateUs(UserUpdateModel user);
+
+        //public Users GetDetail(int id);
+        //Users GetDetailByName(InputLoginModel inputModel);
     }
 }

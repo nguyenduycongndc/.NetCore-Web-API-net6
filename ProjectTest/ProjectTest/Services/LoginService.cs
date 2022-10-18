@@ -14,6 +14,7 @@ using ProjectTest.Services.Interface;
 using Microsoft.Extensions.Configuration;
 using System.Web.Helpers;
 using System.Security.Cryptography;
+using ProjectTest.Common;
 
 namespace ProjectTest.Services
 {
@@ -29,30 +30,29 @@ namespace ProjectTest.Services
             this.userRepo = loginRepo;
             _config = config;
         }
-        public LoginModel Login(InputLoginModel inputModel)
+        public ResultModel Login(InputLoginModel inputModel)
         {
             try
             {
-                LoginModel userdetai = new LoginModel();
+                ResultModel userdetai = new ResultModel();
                 if (inputModel.UserName != "" && inputModel.UserName != null && inputModel.PassWord != "" && inputModel.PassWord != null)
                 {
-                    var user = userRepo.GetDetailByName(inputModel);
-
+                    //var user = userRepo.GetDetailByName(inputModel);
+                    var user = userRepo.CheckUser(inputModel.UserName);
                     if (user == null)
                     {
-                        return Unauthorized();
+                        return ResUnAuthorized.Unauthor();
                     }
-                    var checkPass = Crypto.VerifyHashedPassword(user.Password, inputModel.PassWord + user.SaltKey);
+                    var checkPass = Crypto.VerifyHashedPassword(user[0].Password, inputModel.PassWord + user[0].SaltKey);
                     if (!checkPass)
                     {
-                        return Unauthorized();
+                        return ResUnAuthorized.Unauthor();
                     }
-                    userdetai = new LoginModel()
+                    userdetai = new ResultModel()
                     {
-                        Message = "Successfull",
-                        Code = 200, 
-                        //UserName = user.UserName,
-                        Token = GenerateJwt(user),
+                        Message = "OK",
+                        Code = 200,
+                        Token = GenerateJwt(user[0]),
                     };
                     var Au = AuthenticateUser(inputModel);
 
@@ -62,7 +62,7 @@ namespace ProjectTest.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return Unauthorized();
+                return ResUnAuthorized.Unauthor();
             }
         }
 
@@ -98,13 +98,14 @@ namespace ProjectTest.Services
             CurrentUserModel user = new CurrentUserModel();
             try
             {
-                var data = userRepo.GetDetailByName(inputModel);
+                //var data = userRepo.GetDetailByName(inputModel);
+                var data = userRepo.CheckUser(inputModel.UserName);
                 user = new CurrentUserModel()
                 {
-                    Id = data.Id,
-                    FullName = data.FullName,
-                    UserName = data.UserName,
-                    RoleId = data.RoleId,
+                    Id = data[0].Id,
+                    FullName = data[0].FullName,
+                    UserName = data[0].UserName,
+                    RoleId = data[0].RoleId,
                 };
                 return user;
             }
@@ -113,17 +114,6 @@ namespace ProjectTest.Services
                 _logger.LogError($"USER-LOGIN - {inputModel.UserName} : {ex.Message}!");
                 return user;
             }
-        }
-        public LoginModel Unauthorized()
-        {
-            var detailUs = new LoginModel()
-            {
-                //UserName = "",
-                Token = "",
-                Message = "Unauthorized",
-                Code = 401,
-            };
-            return detailUs;
         }
     }
 }

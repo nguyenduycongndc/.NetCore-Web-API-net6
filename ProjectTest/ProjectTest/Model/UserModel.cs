@@ -9,11 +9,11 @@ namespace ProjectTest.Model
         public string UserName { get; set; }
         public int IsActive { get; set; }
     }
-    public class UserRsModel
-    {
-        public List<UserModel> Data { get; set; }
-        public int Count { get; set; }
-    }
+    //public class UserRsModel
+    //{
+    //    public List<UserModel> Data { get; set; }
+    //    public int Count { get; set; }
+    //}
     public class SearchUserModel
     {
         [JsonPropertyName("user_name")]
@@ -69,5 +69,21 @@ namespace ProjectTest.Model
         public string UserName { get; set; }
 
         public string PassWord { get; set; }
+    }
+    public class UpdateModel
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public int IsActive { get; set; }
+        public string FullName { get; set; }
+    }
+    public class UserUpdateModel
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public int IsActive { get; set; }
+        public string FullName { get; set; }
+        public int ModifiedBy { get; set; }
+
     }
 }

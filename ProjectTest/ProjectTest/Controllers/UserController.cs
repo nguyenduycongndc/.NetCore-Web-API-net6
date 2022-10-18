@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectTest.Attributes;
+using ProjectTest.Common;
 using ProjectTest.Model;
 using ProjectTest.Services.Interface;
 namespace ProjectTest.Controllers
@@ -24,38 +25,94 @@ namespace ProjectTest.Controllers
         }
         [HttpPost]
         [Route("Search")]
-        public async Task<UserRsModel> Search([FromBody] SearchUserModel searchUserModel)
+        public async Task<ResultModel> Search([FromBody] SearchUserModel searchUserModel)
         {
             try
             {
                 if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
                 {
-                    return null;
+                    return ResUnAuthorized.Unauthor();
                 }
                 return await _userService.GetAllUser(searchUserModel);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return null;
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
             }
         }
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> Create([FromBody] CreateModel add)
+        public async Task<ResultModel> Create([FromBody] CreateModel add)
         {
             try
             {
                 if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
                 {
-                    return false;
+                    return ResUnAuthorized.Unauthor();
                 }
-                return await _userService.CreateUse(add, _userInfo);
+                return await _userService.CreateUser(add, _userInfo);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return false;
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
+        }
+        [HttpGet]
+        [Route("Detail")]
+        public ResultModel Detail(int id)
+        {
+            try
+            {
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.Unauthor();
+                }
+                return _userService.GetDetailModels(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
+        }
+        [HttpPut]
+        [Route("Update")]
+        public async Task<ResultModel> Update(UpdateModel updateModel)
+        {
+            try
+            {
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.Unauthor();
+                }
+                return await _userService.UpdateUser(updateModel, _userInfo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
             }
         }
     }

@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using ProjectTest.Services;
 using ProjectTest.Services.Interface;
 using ProjectTest.DataAccess;
+using ProjectTest.Common;
 
 namespace ProjectTest.Attributes
 {
@@ -36,7 +37,7 @@ namespace ProjectTest.Attributes
             _rule = rule;
             _role = role;
         }
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async void OnAuthorization(AuthorizationFilterContext context)
         {
             bool hasAllowAnonymousAttribute = false;
 
@@ -106,9 +107,10 @@ namespace ProjectTest.Attributes
                         return;
                     }
                 }
-                context.HttpContext.Items["UserInfo"] = user;
-                _logger.Log(NLog.LogLevel.Info, $"{user.UserName}: logon into api successfully!");
+                context.HttpContext.Items["UserInfo"] = user.Data/*user*/;
+                _logger.Log(NLog.LogLevel.Info, $"{user.Data/*user.UserName*/}: logon into api successfully!");
             }
         }
+        
     }
 }

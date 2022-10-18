@@ -1,11 +1,14 @@
-﻿using ProjectTest.Model;
+﻿using ProjectTest.Common;
+using ProjectTest.Model;
 
 namespace ProjectTest.Services.Interface
 {
     public interface IUserService
     {
-        Task<UserRsModel> GetAllUser(SearchUserModel searchUserModel);
-        public Task<bool> CreateUse(CreateModel input, CurrentUserModel _userInfo);
-        public CurrentUserModel GetDetailModels(int id);
+        Task<ResultModel> GetAllUser(SearchUserModel searchUserModel);
+        public Task<ResultModel> CreateUser(CreateModel input, CurrentUserModel _userInfo);
+        public Task<ResultModel> UpdateUser(UpdateModel updateModel, CurrentUserModel _userInfo);
+        public ResultModel GetDetailModels(int id);
+        //public CurrentUserModel GetDetailModels(int id);
     }
 }

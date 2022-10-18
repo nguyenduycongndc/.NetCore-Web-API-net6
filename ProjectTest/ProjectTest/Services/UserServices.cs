@@ -1,9 +1,11 @@
-﻿using ProjectTest.Data;
+﻿using ProjectTest.Common;
+using ProjectTest.Data;
 using ProjectTest.Model;
 using ProjectTest.Repo.Interface;
 using ProjectTest.Services.Interface;
 using System.Text;
 using System.Web.Helpers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ProjectTest.Services
 {
@@ -11,12 +13,14 @@ namespace ProjectTest.Services
     {
         private readonly ILogger<UserServices> _logger;
         private readonly IUserRepo userRepo;
+        private ResultModel Result;
+
         public UserServices(IUserRepo userRepo, ILogger<UserServices> logger)
         {
             this.userRepo = userRepo;
             _logger = logger;
         }
-        public async Task<UserRsModel> GetAllUser(SearchUserModel searchUserModel)
+        public async Task<ResultModel> GetAllUser(SearchUserModel searchUserModel)
         {
             var qr = await userRepo.GetAll(searchUserModel);
             List<UserModel> lst = new List<UserModel>();
@@ -27,32 +31,54 @@ namespace ProjectTest.Services
                 FullName = x.FullName,
                 IsActive = x.IsActive,
             }).OrderBy(x => x.Id).ToList();
-            var data = new UserRsModel()
+            var data = new ResultModel()
             {
                 Data = listUser,
+                Message = "Successfull",
+                Code = 200,
                 Count = listUser.Count(),
             };
+            //var data = new ResultModel()
+            //{
+            //    Data = listUser,
+            //    Count = listUser.Count(),
+            //};
             return data;
         }
-        public async Task<bool> CreateUse(CreateModel input, CurrentUserModel _userInfo)
+        public async Task<ResultModel> CreateUser(CreateModel input, CurrentUserModel _userInfo)
         {
             try
             {
-                var checkUser = await userRepo.CheckUser(input.UserName);
+                var checkUser = userRepo.CheckUser(input.UserName);
                 var checkRoles = await userRepo.CheckRoles(input.RoleId);
                 if (checkUser.Count() > 0)
                 {
                     _logger.LogError("Tài khoản đã tồn tại");
-                    return false;
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
                 }
                 if (checkRoles.Count() == 0)
                 {
                     _logger.LogError("Không tồn tại quyền này");
-                    return false;
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
                 }
                 if (input.UserName == "" || input.UserName == null || input.Password == "" || input.Password == null)
                 {
-                    return false;
+                    Result = new ResultModel()
+                    {
+                        Message = "Bad Request",
+                        Code = 400,
+                    };
+                    return Result;
                 }
                 string salt = "";
                 string hashedPassword = "";
@@ -72,56 +98,125 @@ namespace ProjectTest.Services
                     RoleId = input.RoleId,
                     CreatedBy = _userInfo.Id,
                 };
-                //Users us = new Users()
-                //{
-                //    FullName = input.UserName.Trim(),
-                //    UserName = input.UserName.ToLower(),
-                //    Password = hashedPassword,
-                //    IsActive = 1,
-                //    SaltKey = salt,
-                //    RoleId = input.RoleId,
-                //    CreatedBy = _userInfo.Id,
-                //};
-                //var _userrole = new UsersRoles
-                //{
-                //    roles_id = input.RoleId,
-                //    Users = us
-                //};
-                return await userRepo.CreateUs(us);
+                var rs = await userRepo.CreateUs(us);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return false;
+                return Result;
             }
         }
-        public CurrentUserModel GetDetailModels(int Id)
+        //public CurrentUserModel GetDetailModels(int Id)
+        //{
+        //    try
+        //    {
+        //        var data = userRepo.GetDetail(Id);
+
+        //        var detailUs = new CurrentUserModel()
+        //        {
+        //            Id = data.Id,
+        //            UserName = data.UserName,
+        //            FullName = data.FullName,
+        //            IsActive = data.IsActive,
+        //            Email = data.Email,
+        //            RoleId = data.RoleId,
+        //        };
+
+        //        return detailUs;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return null;
+        //    }
+        //}
+        public ResultModel GetDetailModels(int Id)
         {
             try
             {
-                var data = userRepo.GetDetail(Id);
+
+
+                var rs = userRepo.GetDetail(Id);
 
                 var detailUs = new CurrentUserModel()
                 {
-                    Id = data.Id,
-                    UserName = data.UserName,
-                    FullName = data.FullName,
-                    IsActive = data.IsActive,
-                    Email = data.Email,
-                    RoleId = data.RoleId,
+                    Id = rs[0].Id,
+                    UserName = rs[0].UserName,
+                    FullName = rs[0].FullName,
+                    IsActive = rs[0].IsActive,
+                    Email = rs[0].Email,
+                    RoleId = rs[0].RoleId,
                 };
 
-                return detailUs;
+                Result = new ResultModel()
+                {
+                    Data = detailUs,
+                    Message = "OK"/*"Successfull"*/,
+                    Code = 200,
+                };
+                
+                return Result;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return null;
+                return Result;
             }
         }
+
+
+
         //public static string EncodeServerName(string serverName)
         //{
         //    return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         //}
+
+
+        public async Task<ResultModel> UpdateUser(UpdateModel updateModel, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkUser = userRepo.GetDetail(updateModel.Id);
+                if (checkUser.Count() == 0)
+                {
+                    _logger.LogError("Tài khoản không tồn tại");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+
+                UserUpdateModel us = new UserUpdateModel()
+                {
+                    Id = updateModel.Id,
+                    Email = updateModel.Email,
+                    IsActive = updateModel.IsActive,
+                    FullName = updateModel.FullName,
+                    ModifiedBy = _userInfo.Id,
+                };
+                var rs = await userRepo.UpdateUs(us);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
     }
 }

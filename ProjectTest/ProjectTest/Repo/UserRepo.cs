@@ -17,6 +17,7 @@ namespace ProjectTest.Repo
         {
             this.context = context;
         }
+        #region Search
         public async Task<List<Users>> GetAll(SearchUserModel searchUserModel)
         {
             //return context.Users.ToList();
@@ -41,7 +42,7 @@ namespace ProjectTest.Repo
                     new SqlParameter { ParameterName = "@start_number", Value = searchUserModel.StartNumber },
                     new SqlParameter { ParameterName = "@page_size", Value = searchUserModel.PageSize }
                 };
-                list = await context.Users.FromSqlRaw<Users>(sql,parms.ToArray()).ToListAsync();
+                list = await context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToListAsync();
 
                 ////List<SqlParameter> LstParam = new List<SqlParameter>();
                 ////SqlParameter param = new SqlParameter();
@@ -63,7 +64,9 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
+        #endregion
         //public async Task<bool> CreateUs(Users user, UsersRoles usersRoles)
+        #region Create
         public async Task<bool> CreateUs(UserCreateModel user)
         {
             try
@@ -88,7 +91,9 @@ namespace ProjectTest.Repo
                 throw ex;
             }
         }
-        public async Task<List<Users>> CheckUser(string userName)
+        #endregion
+        #region Check
+        public List<Users> CheckUser(string userName)
         {
             List<Users> list;
             string sql = "EXECUTE SP_CHECK_USER @user_name";
@@ -99,7 +104,7 @@ namespace ProjectTest.Repo
                 // Create parameters    
                 new SqlParameter { ParameterName = "@user_name", Value = userName },
             };
-            list = await context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToListAsync();
+            list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
             return list;
         }
         public async Task<List<Roles>> CheckRoles(int RolesId)
@@ -116,39 +121,81 @@ namespace ProjectTest.Repo
             list = await context.Roles.FromSqlRaw<Roles>(sql, parms.ToArray()).ToListAsync();
             return list;
         }
-        public Users GetDetail(int id)
+        public List<Users> GetDetail(int id)
         {
-            var query = (from x in context.Users
-                         where x.Id.Equals(id)
-                         select new Users
-                         {
-                             Id = x.Id,
-                             UserName = x.UserName,
-                             Password = x.Password,
-                             IsActive = x.IsActive,
-                             RoleId = x.RoleId,
-                             FullName = x.FullName,
-                             Email = x.Email,
-                         }).FirstOrDefault();
+            List<Users> list;
+            string sql = "EXECUTE SP_DETAIL_USER @user_id";
 
-            return query;
+
+            List<SqlParameter> parms = new List<SqlParameter>
+            { 
+                // Create parameters    
+                new SqlParameter { ParameterName = "@user_id", Value = id },
+            };
+            list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
+            return list;
         }
-        public Users GetDetailByName(InputLoginModel inputModel)
+        #endregion
+        //public Users GetDetail(int id)
+        //{
+        //    var query = (from x in context.Users
+        //                 where x.Id.Equals(id)
+        //                 select new Users
+        //                 {
+        //                     Id = x.Id,
+        //                     UserName = x.UserName,
+        //                     Password = x.Password,
+        //                     IsActive = x.IsActive,
+        //                     RoleId = x.RoleId,
+        //                     FullName = x.FullName,
+        //                     Email = x.Email,
+        //                 }).FirstOrDefault();
+
+        //    return query;
+        //}
+        //public Users GetDetailByName(InputLoginModel inputModel)
+        //{
+        //    var query = (from x in context.Users
+        //                 where x.UserName.Equals(inputModel.UserName) && x.IsActive.Equals(1)
+        //                 select new Users
+        //                 {
+        //                     Id = x.Id,
+        //                     UserName = x.UserName,
+        //                     FullName = x.FullName,
+        //                     Password = x.Password,
+        //                     IsActive = x.IsActive,
+        //                     RoleId = x.RoleId,
+        //                     SaltKey = x.SaltKey,
+        //                 }).FirstOrDefault();
+
+        //    return query;
+        //}
+
+
+        #region Update
+        public async Task<bool> UpdateUs(UserUpdateModel user)
         {
-            var query = (from x in context.Users
-                         where x.UserName.Equals(inputModel.UserName) && x.IsActive.Equals(1)
-                         select new Users
-                         {
-                             Id = x.Id,
-                             UserName = x.UserName,
-                             FullName = x.FullName,
-                             Password = x.Password,
-                             IsActive = x.IsActive,
-                             RoleId = x.RoleId,
-                             SaltKey = x.SaltKey,
-                         }).FirstOrDefault();
+            try
+            {
+                string sql = "EXECUTE SP_UPDATE_USER @id, @full_name, @email, @is_active, @modified_by";
 
-            return query;
+                List<SqlParameter> parms = new List<SqlParameter>
+                { 
+                    new SqlParameter { ParameterName = "@id", Value = user.Id },
+                    new SqlParameter { ParameterName = "@full_name", Value = user.FullName },
+                    new SqlParameter { ParameterName = "@email", Value = user.Email },
+                    new SqlParameter { ParameterName = "@is_active", Value = user.IsActive },
+                    new SqlParameter { ParameterName = "@modified_by", Value = user.ModifiedBy },
+                }; 
+
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+        #endregion
     }
 }

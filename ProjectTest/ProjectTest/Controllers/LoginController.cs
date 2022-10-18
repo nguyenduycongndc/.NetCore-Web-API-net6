@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using ProjectTest.Attributes;
 using ProjectTest.Model;
 using ProjectTest.Services.Interface;
+using ProjectTest.Common;
 
 namespace ProjectTest.Controllers
 {
@@ -36,7 +37,7 @@ namespace ProjectTest.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("LoginUser")]
-        public LoginModel LoginUser([FromBody] InputLoginModel inputModel)
+        public ResultModel LoginUser([FromBody] InputLoginModel inputModel)
         {
             var _login = _loginServices.Login(inputModel);
             if (_login != null)
