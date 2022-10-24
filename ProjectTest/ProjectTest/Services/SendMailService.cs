@@ -1,14 +1,7 @@
-﻿using MailKit.Security;
-using MimeKit.Text;
-using MimeKit;
-using ProjectTest.Model;
+﻿using ProjectTest.Model;
 using ProjectTest.Services.Interface;
-using MailKit.Net.Smtp;
-using Org.BouncyCastle.Crypto.Macs;
-using Microsoft.Identity.Client;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Gmail.v1;
 using System.Net;
+using System.Net.Mail;
 
 namespace ProjectTest.Services
 {
@@ -21,25 +14,23 @@ namespace ProjectTest.Services
             _logger = logger;
             _configuration = configuration;
         }
-        public async Task<bool> SendMailAsync(EmailDto emailDto)
+        public bool SendMailAsync(EmailDto emailDto)
         {
             try
             {
-                //var client = new SmtpClient();
-                //client.Connect(_configuration.GetSection("EmailHost").Value, 587, SecureSocketOptions.StartTls);
-                //var email = new MimeMessage();
-                //email.From.Add(MailboxAddress.Parse(_configuration.GetSection("EmailUsername").Value));
-                //email.To.Add(MailboxAddress.Parse(emailDto.To));
-                //email.Subject = emailDto.Subject;
-                //email.Body = new TextPart(TextFormat.Html) { Text = emailDto.Body };
-
-
-                ////var oauth2 = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, authToken.Token.AccessToken);
-                ////client.Authenticate(oauth2);
-                //// send email
-                //client.Authenticate(_configuration.GetSection("EmailUserName").Value, _configuration.GetSection("EmailPassWord").Value);
-                //client.Send(email);
-                //client.Disconnect(true);
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.Subject = emailDto.Subject;
+                mailMessage.Body = emailDto.Body;
+                mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
+                mailMessage.To.Add(new MailAddress(emailDto.To));
+                mailMessage.IsBodyHtml = true;
+                var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, _configuration.GetSection("EmailPassword").Value),
+                    EnableSsl = true,
+                };
+                smtpClient.Send(mailMessage);
                 return true;
             }
             catch (Exception)

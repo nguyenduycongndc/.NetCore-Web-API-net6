@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectTest.Attributes;
+using ProjectTest.Common;
 using ProjectTest.Model;
 using ProjectTest.Services.Interface;
 
@@ -25,10 +26,45 @@ namespace ProjectTest.Controllers
         }
         [HttpPost]
         [Route("SendMail")]
-        public async Task<IActionResult> SendMail(EmailDto emailDto)
+        public ResultModel SendMail(EmailDto emailDto)
         {
-            await _sendMailService.SendMailAsync(emailDto);
-            return Ok();
+            try
+            {
+                var sendMailRs = _sendMailService.SendMailAsync(emailDto);
+                if (sendMailRs == true)
+                {
+                    var data = new ResultModel()
+                    {
+                        Data = true,
+                        Message = "Ok",
+                        Code = 200,
+                    };
+                    return data;
+                }
+                else
+                {
+                    var data = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return data;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+                throw;
+            }
+            
+            
         }
     }
 }
