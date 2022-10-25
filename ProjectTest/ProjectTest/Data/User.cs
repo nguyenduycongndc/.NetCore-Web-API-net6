@@ -79,6 +79,14 @@ namespace ProjectTest.Data
         [Column("deleted_by")]
         [JsonPropertyName("deleted_by")]
         public int? DeletedBy { get; set; }
+
+        [Column("expiration_date_otp")]
+        [JsonPropertyName("expiration_date_otp")]
+        public DateTime? ExpirationDateOtp { get; set; }
+
+        [Column("otp")]
+        [JsonPropertyName("otp")]
+        public int? OTP { get; set; }
         public virtual ICollection<UsersRoles> UsersRoles { get; set; }
     }
 }

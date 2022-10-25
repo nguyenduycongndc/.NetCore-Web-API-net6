@@ -15,6 +15,9 @@ using Microsoft.Extensions.Configuration;
 using System.Web.Helpers;
 using System.Security.Cryptography;
 using ProjectTest.Common;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Net.WebRequestMethods;
+using System.Globalization;
 
 namespace ProjectTest.Services
 {
@@ -23,7 +26,7 @@ namespace ProjectTest.Services
         private readonly ILogger<LoginService> _logger;
         private readonly IUserRepo userRepo;
         private readonly IConfiguration _config;
-
+        private ResultModel Result;
         public LoginService(ILogger<LoginService> logger, IUserRepo loginRepo, IConfiguration config)
         {
             _logger = logger;
@@ -113,6 +116,63 @@ namespace ProjectTest.Services
             {
                 _logger.LogError($"USER-LOGIN - {inputModel.UserName} : {ex.Message}!");
                 return user;
+            }
+        }
+
+        public async Task<ResultModel> ForgotPassWordAsync(ForgotPassWordModel forgotPassWordModel)
+        {
+            try
+            {
+                if ((forgotPassWordModel.PassWordNew != "" || forgotPassWordModel.PassWordNew != null) 
+                    && (forgotPassWordModel.ConfirmPassWord != "" || forgotPassWordModel.ConfirmPassWord != null) 
+                    && (forgotPassWordModel.OTP != "" || forgotPassWordModel.OTP != null)
+                    && (forgotPassWordModel.PassWordNew == forgotPassWordModel.ConfirmPassWord))
+                {
+                    var checkOTP = new checkOTPModel()
+                    {
+                        Email = forgotPassWordModel.Email,
+                        OTP = forgotPassWordModel.OTP,
+                    };
+                    var otp = userRepo.CheckOTP(checkOTP);
+                    if (otp.Count == 0)
+                    {
+                        _logger.LogError("Mã OTP này không khả dụng");
+                        Result = new ResultModel()
+                        {
+                            Message = "Not Found",
+                            Code = 404,
+                        };
+                        return Result;
+                    }
+                    string salt = "";
+                    string hashedPassword = "";
+                    if (forgotPassWordModel != null)
+                    {
+                        var pass = forgotPassWordModel.PassWordNew;
+                        salt = Crypto.GenerateSalt();
+                        var password = forgotPassWordModel.PassWordNew + salt;
+                        hashedPassword = Crypto.HashPassword(password);
+                    }
+                    ChangePassWordModel us = new ChangePassWordModel()
+                    {
+                        Email = forgotPassWordModel.Email,
+                        PassWordNew = hashedPassword,
+                        SaltKey = salt,
+                    };
+                    var rs = await userRepo.ForgotPassWordUs(us);
+                    Result = new ResultModel()
+                    {
+                        Data = rs,
+                        Message = (rs == true ? "OK" : "Bad Request"),
+                        Code = (rs == true ? 200 : 400),
+                    };
+                }
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
             }
         }
     }

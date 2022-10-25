@@ -141,28 +141,32 @@ namespace ProjectTest.Services
         {
             try
             {
-
-
                 var rs = userRepo.GetDetail(Id);
-
-                var detailUs = new CurrentUserModel()
+                if (rs.Count == 0)
                 {
-                    Id = rs[0].Id,
-                    UserName = rs[0].UserName,
-                    FullName = rs[0].FullName,
-                    IsActive = rs[0].IsActive,
-                    Email = rs[0].Email,
-                    RoleId = rs[0].RoleId,
-                };
-
-                Result = new ResultModel()
+                    return Result;
+                }
+                else
                 {
-                    Data = detailUs,
-                    Message = "OK"/*"Successfull"*/,
-                    Code = 200,
-                };
-                
-                return Result;
+                    var detailUs = new CurrentUserModel()
+                    {
+                        Id = rs[0].Id,
+                        UserName = rs[0].UserName,
+                        FullName = rs[0].FullName,
+                        IsActive = rs[0].IsActive,
+                        Email = rs[0].Email,
+                        RoleId = rs[0].RoleId,
+                    };
+
+                    Result = new ResultModel()
+                    {
+                        Data = detailUs,
+                        Message = "OK"/*"Successfull"*/,
+                        Code = 200,
+                    };
+
+                    return Result;
+                }
             }
             catch (Exception ex)
             {
@@ -170,20 +174,16 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
-
-
-
         //public static string EncodeServerName(string serverName)
         //{
         //    return Convert.ToBase64String(Encoding.UTF8.GetBytes(serverName));
         //}
-
-
         public async Task<ResultModel> UpdateUser(UpdateModel updateModel, CurrentUserModel _userInfo)
         {
             try
             {
                 var checkUser = userRepo.GetDetail(updateModel.Id);
+                var checkEmail = userRepo.CheckEmail(updateModel.Email);
                 if (checkUser.Count() == 0)
                 {
                     _logger.LogError("Tài khoản không tồn tại");
@@ -194,7 +194,16 @@ namespace ProjectTest.Services
                     };
                     return Result;
                 }
-
+                if (checkUser.Count() == 0)
+                {
+                    _logger.LogError("Email này đã được sử dụng");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
                 UserUpdateModel us = new UserUpdateModel()
                 {
                     Id = updateModel.Id,
@@ -204,6 +213,36 @@ namespace ProjectTest.Services
                     ModifiedBy = _userInfo.Id,
                 };
                 var rs = await userRepo.UpdateUs(us);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        public async Task<ResultModel> DeleteUser(int id, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                var checkUser = userRepo.GetDetail(id);
+                if (checkUser.Count() == 0)
+                {
+                    _logger.LogError("Tài khoản không tồn tại");
+                    Result = new ResultModel()
+                    {
+                        Message = "Not Found",
+                        Code = 404,
+                    };
+                    return Result;
+                }
+                var rs = await userRepo.DeleteUs(id, _userInfo);
                 Result = new ResultModel()
                 {
                     Data = rs,

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectTest.Migrations
 {
-    public partial class NewMG : Migration
+    public partial class Test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,7 +51,9 @@ namespace ProjectTest.Migrations
                     modified_by = table.Column<int>(type: "int", nullable: true),
                     modified_at = table.Column<DateTime>(type: "datetime2", nullable: true),
                     deleted_at = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    deleted_by = table.Column<int>(type: "int", nullable: true)
+                    deleted_by = table.Column<int>(type: "int", nullable: true),
+                    expiration_date_otp = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    otp = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

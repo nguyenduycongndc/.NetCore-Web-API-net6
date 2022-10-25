@@ -111,6 +111,10 @@ namespace ProjectTest.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("email");
 
+                    b.Property<DateTime?>("ExpirationDateOtp")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("expiration_date_otp");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("full_name");
@@ -130,6 +134,10 @@ namespace ProjectTest.Migrations
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnName("modified_by");
+
+                    b.Property<int?>("OTP")
+                        .HasColumnType("int")
+                        .HasColumnName("otp");
 
                     b.Property<string>("Password")
                         .IsRequired()

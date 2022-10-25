@@ -135,6 +135,37 @@ namespace ProjectTest.Repo
             list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
             return list;
         }
+
+        public List<Users> CheckEmail(string email)
+        {
+            List<Users> list;
+            string sql = "EXECUTE SP_CHECK_EMAIL @email";
+
+
+            List<SqlParameter> parms = new List<SqlParameter>
+            { 
+                // Create parameters    
+                new SqlParameter { ParameterName = "@email", Value = email },
+            };
+            list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
+            return list;
+        }
+
+        public List<Users> CheckOTP(checkOTPModel checkOTPModel)
+        {
+            List<Users> list;
+            string sql = "EXECUTE SP_CHECK_OTP @email, @otp";
+
+
+            List<SqlParameter> parms = new List<SqlParameter>
+            { 
+                // Create parameters    
+                new SqlParameter { ParameterName = "@email", Value = checkOTPModel.Email },
+                new SqlParameter { ParameterName = "@otp", Value = checkOTPModel.OTP },
+            };
+            list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
+            return list;
+        }
         #endregion
         //public Users GetDetail(int id)
         //{
@@ -187,6 +218,75 @@ namespace ProjectTest.Repo
                     new SqlParameter { ParameterName = "@is_active", Value = user.IsActive },
                     new SqlParameter { ParameterName = "@modified_by", Value = user.ModifiedBy },
                 }; 
+
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region Delete
+        public async Task<bool> DeleteUs(int id, CurrentUserModel _userInfo)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_DELETE_USER @id, @deleted_by";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                { 
+                    new SqlParameter { ParameterName = "@id", Value = id },
+                    new SqlParameter { ParameterName = "@deleted_by", Value = _userInfo.Id },
+                }; 
+
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+        #region send OTP
+        public async Task<bool> UpdateOTPUs(UserUpdateOTPModel userUpdateOTPModel)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_UPDATE_USER_OTP @email, @otp, @expdate";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@email", Value = userUpdateOTPModel.Email },
+                    new SqlParameter { ParameterName = "@otp", Value = int.Parse(userUpdateOTPModel.OTP) },
+                    new SqlParameter { ParameterName = "@expdate", Value = userUpdateOTPModel.Expdate },
+                };
+
+                var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region ForgotPassWord
+        public async Task<bool> ForgotPassWordUs(ChangePassWordModel changePassWordModel)
+        {
+            try
+            {
+                string sql = "EXECUTE SP_FORGOT_PASSWORD_USER @email, @password, @salt";
+
+                List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@email", Value = changePassWordModel.Email },
+                    new SqlParameter { ParameterName = "@password", Value = changePassWordModel.PassWordNew },
+                    new SqlParameter { ParameterName = "@salt", Value = changePassWordModel.SaltKey },
+                };
 
                 var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
                 return true;

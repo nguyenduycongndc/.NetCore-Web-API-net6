@@ -11,7 +11,12 @@ namespace ProjectTest.Repo.Interface
         List<Users> CheckUser(string userName);
         Task<List<Roles>> CheckRoles(int RolesId);
         List<Users> GetDetail(int id);
+        List<Users> CheckEmail(string email);
+        List<Users> CheckOTP(checkOTPModel checkOTPModel);
         Task<bool> UpdateUs(UserUpdateModel user);
+        Task<bool> UpdateOTPUs(UserUpdateOTPModel userUpdateOTPModel);
+        Task<bool> DeleteUs(int id, CurrentUserModel _userInfo);
+        Task<bool> ForgotPassWordUs(ChangePassWordModel changePassWordModel);
 
         //public Users GetDetail(int id);
         //Users GetDetailByName(InputLoginModel inputModel);

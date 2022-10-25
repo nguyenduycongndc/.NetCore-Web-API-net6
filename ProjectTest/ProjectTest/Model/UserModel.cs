@@ -17,7 +17,7 @@ namespace ProjectTest.Model
     public class SearchUserModel
     {
         [JsonPropertyName("user_name")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         [JsonPropertyName("is_active")]
         public int IsActive { get; set; }
         [JsonPropertyName("start_number")]
@@ -42,22 +42,20 @@ namespace ProjectTest.Model
     }
     public class LoginModel
     {
-        //public string? UserName { get; set; }
+        //public string UserName { get; set; }
 
-        public string? Token { get; set; }
-        public string? Message { get; set; }
+        public string Token { get; set; }
+        public string Message { get; set; }
         public int Code { get; set; }
     }
     public class InputLoginModel
     {
         public string UserName { get; set; }
-
         public string PassWord { get; set; }
     }
     public class UserCreateModel
     {
         public string UserName { get; set; }
-
         public string PassWord { get; set; }
         public string SaltKey { get; set; }
         public int RoleId { get; set; }
@@ -85,5 +83,29 @@ namespace ProjectTest.Model
         public string FullName { get; set; }
         public int ModifiedBy { get; set; }
 
+    }
+    public class UserUpdateOTPModel
+    {
+        public string Email { get; set; }
+        public string OTP { get; set; }
+        public DateTime Expdate { get; set; }
+    }
+    public class checkOTPModel
+    {
+        public string Email { get; set; }
+        public string OTP { get; set; }
+    }
+    public class ForgotPassWordModel
+    {
+        public string Email { get; set; }
+        public string OTP { get; set; }
+        public string PassWordNew { get; set; }
+        public string ConfirmPassWord { get; set; }
+    }
+    public class ChangePassWordModel
+    {
+        public string Email { get; set; }
+        public string PassWordNew { get; set; }
+        public string SaltKey { get; set; }
     }
 }

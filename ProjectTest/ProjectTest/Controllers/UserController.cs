@@ -13,10 +13,10 @@ namespace ProjectTest.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IUserService loginService)
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
-            _userService = loginService;
+            _userService = userService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -103,6 +103,29 @@ namespace ProjectTest.Controllers
                     return ResUnAuthorized.Unauthor();
                 }
                 return await _userService.UpdateUser(updateModel, _userInfo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
+        }
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<ResultModel> Delete(int id)
+        {
+            try
+            {
+                if (HttpContext.Items["UserInfo"] is not CurrentUserModel _userInfo)
+                {
+                    return ResUnAuthorized.Unauthor();
+                }
+                return await _userService.DeleteUser(id, _userInfo);
             }
             catch (Exception ex)
             {

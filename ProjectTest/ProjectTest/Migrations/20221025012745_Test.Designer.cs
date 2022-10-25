@@ -12,8 +12,8 @@ using ProjectTest.Data;
 namespace ProjectTest.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20221013015815_NewMG")]
-    partial class NewMG
+    [Migration("20221025012745_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,6 +113,10 @@ namespace ProjectTest.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("email");
 
+                    b.Property<DateTime?>("ExpirationDateOtp")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("expiration_date_otp");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("full_name");
@@ -132,6 +136,10 @@ namespace ProjectTest.Migrations
                     b.Property<int?>("ModifiedBy")
                         .HasColumnType("int")
                         .HasColumnName("modified_by");
+
+                    b.Property<int?>("OTP")
+                        .HasColumnType("int")
+                        .HasColumnName("otp");
 
                     b.Property<string>("Password")
                         .IsRequired()
