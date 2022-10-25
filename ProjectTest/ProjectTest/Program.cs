@@ -6,7 +6,9 @@ using ProjectTest.Repo;
 using ProjectTest.Services.Interface;
 using ProjectTest.Services;
 using Microsoft.OpenApi.Models;
-
+using ProjectTest.Tool.ServicesTool.IServicesTool;
+using ProjectTest.Tool.ServicesTool;
+using ProjectTest.Tool;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +54,9 @@ builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISendMailService, SendMailService>();
 
+builder.Services.AddSingleton<IWorker, Worker>();
+builder.Services.AddHostedService<DerivedBackgroundPrinter>();
+//builder.Services.AddHostedService<BackgroundPrinter>();
 
 builder.Services.AddDistributedMemoryCache();
 
