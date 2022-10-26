@@ -1,4 +1,6 @@
-﻿using ProjectTest.Services.Interface;
+﻿using ProjectTest.Model;
+using ProjectTest.Repo.Interface;
+using ProjectTest.Services.Interface;
 using ProjectTest.Tool.ServicesTool.IServicesTool;
 
 namespace ProjectTest.Tool.ServicesTool
@@ -12,47 +14,37 @@ namespace ProjectTest.Tool.ServicesTool
             _logger = logger;
             _serviceScopeFactory = serviceScopeFactory;
         }
-        private int number = 0;
+        //private int number = 0;
         public async Task DoWork(CancellationToken cancellationToken)
         {
-            //var listData = new List<BuysModel>();
-
-            //using (var scope = _serviceScopeFactory.CreateScope())
-            //{
-            //    var buysService = scope.ServiceProvider.GetService<IBuysService>();
-            //    var buyNFT = scope.ServiceProvider.GetService<IBuyNFT>();
-
-            //    if (buyNFT != null)
-            //    {
-            //        while (!cancellationToken.IsCancellationRequested)
-            //        {
-            //            if (buysService != null)
-            //            {
-            //                listData = buysService.GetAllListBuy();
-            //            }
-            //            var result = new InputBuyModel();
-            //            if (listData.Count() != 0)
-            //            {
-            //                result = JsonConvert.DeserializeObject<InputBuyModel>(listData[0].RequestBody);
-            //            }
-            //            else
-            //            {
-            //                result = null;
-            //            }
-            //            var tetNFT = buyNFT.GetDataHero(result);
-            //            await Task.Delay(1000 * 30);
-            //        }
-            //    }
-            //}
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var sendMailService = scope.ServiceProvider.GetService<ISendMailService>();
-
-                while (!cancellationToken.IsCancellationRequested)
+                var dataMailRepo = scope.ServiceProvider.GetService<IDataEmailRepo>();
+                var userRepo = scope.ServiceProvider.GetService<IUserRepo>();
+                var allEmail = userRepo.CheckAllEmail();
+                var dataEmail = dataMailRepo.CheckDataEmail();
+                if (allEmail.Count() > 0 && dataEmail != null)
                 {
-                    Interlocked.Increment(ref number);
-                    _logger.LogInformation($"Test: {number}");
-                    await Task.Delay(1000 * 3);
+                    List<EmailModel> lst = new List<EmailModel>();
+                    var list = allEmail.Select(x => new EmailModel()
+                    {
+                        Email = x.Email,
+                    }).ToList();
+                    var strEmail = string.Join(", ", list.Select(x => x.Email).ToArray());
+                    EmailDto inputEmail = new EmailDto()
+                    {
+                        To = strEmail,
+                        Subject = dataEmail.Subject,
+                        Body = dataEmail.Body,
+                    };
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        //Interlocked.Increment(ref number);
+                        //_logger.LogInformation($"Test: {number}");
+                        var sendMailAuto = await sendMailService.SendMailAsync(inputEmail);
+                        await Task.Delay(1000 * 3);
+                    }
                 }
             }
         }

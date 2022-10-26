@@ -3,7 +3,7 @@ namespace ProjectTest.Services.Interface
 {
     public interface ISendMailService
     {
-        bool SendMailAsync(EmailDto emailDto);
+        Task<bool> SendMailAsync(EmailDto emailDto);
         bool SendMailOTPAsync(string Email);
     }
 }

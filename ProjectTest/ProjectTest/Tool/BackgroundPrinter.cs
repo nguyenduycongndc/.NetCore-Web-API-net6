@@ -2,22 +2,22 @@
 
 namespace ProjectTest.Tool
 {
-    public class BackgroundPrinter : IHostedService , IDisposable
+    public class BackgroundPrinter : IHostedService /*, IDisposable*/
     {
         private readonly ILogger<BackgroundPrinter> _logger;
         private readonly IWorker _worker;
-        private int number = 0;
-        private Timer timer;
+        //private int number = 0;
+        //private Timer timer;
         public BackgroundPrinter(ILogger<BackgroundPrinter> logger, IWorker worker)
         {
             _logger = logger;
             _worker = worker;
         }
 
-        public void Dispose()
-        {
-            timer?.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    timer?.Dispose();
+        //}
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {

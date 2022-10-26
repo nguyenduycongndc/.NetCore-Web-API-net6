@@ -12,6 +12,7 @@ namespace ProjectTest.Repo.Interface
         Task<List<Roles>> CheckRoles(int RolesId);
         List<Users> GetDetail(int id);
         List<Users> CheckEmail(string email);
+        List<Users> CheckAllEmail();
         List<Users> CheckOTP(checkOTPModel checkOTPModel);
         Task<bool> UpdateUs(UserUpdateModel user);
         Task<bool> UpdateOTPUs(UserUpdateOTPModel userUpdateOTPModel);

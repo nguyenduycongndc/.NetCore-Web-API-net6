@@ -53,6 +53,7 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISendMailService, SendMailService>();
+builder.Services.AddScoped<IDataEmailRepo, DataEmailRepo>();
 
 builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddHostedService<DerivedBackgroundPrinter>();

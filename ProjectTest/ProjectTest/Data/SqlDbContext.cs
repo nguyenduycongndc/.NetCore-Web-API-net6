@@ -14,6 +14,7 @@ namespace ProjectTest.Data
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<UsersRoles> UsersRoles { get; set; }
+        public virtual DbSet<DataEmail> DataEmail { get; set; }
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();

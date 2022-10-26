@@ -26,11 +26,11 @@ namespace ProjectTest.Controllers
         }
         [HttpPost]
         [Route("SendMail")]
-        public ResultModel SendMail(EmailDto emailDto)
+        public async Task<ResultModel> SendMail(EmailDto emailDto)
         {
             try
             {
-                var sendMailRs = _sendMailService.SendMailAsync(emailDto);
+                var sendMailRs = await _sendMailService.SendMailAsync(emailDto);
                 if (sendMailRs == true)
                 {
                     var data = new ResultModel()

@@ -150,6 +150,13 @@ namespace ProjectTest.Repo
             list = context.Users.FromSqlRaw<Users>(sql, parms.ToArray()).ToList();
             return list;
         }
+        public List<Users> CheckAllEmail()
+        {
+            List<Users> list;
+            string sql = "EXEC SP_CHECK_ALL_EMAIL";
+            list = context.Users.FromSqlRaw<Users>(sql).ToList();
+            return list;
+        }
 
         public List<Users> CheckOTP(checkOTPModel checkOTPModel)
         {

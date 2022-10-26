@@ -10,7 +10,7 @@ namespace ProjectTest.DataAccess
 {
     public static class JwtTokenCm
     {
-        public static JwtSecurityToken GetTokenInfo(string token, string secret)
+        public static JwtSecurityToken? GetTokenInfo(string token, string secret)
         {
             SecurityToken validatedToken;
             try

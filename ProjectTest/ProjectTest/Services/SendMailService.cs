@@ -2,6 +2,7 @@
 using ProjectTest.Repo;
 using ProjectTest.Repo.Interface;
 using ProjectTest.Services.Interface;
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -19,28 +20,51 @@ namespace ProjectTest.Services
             _configuration = configuration;
             _userRepo = userRepo;
         }
-        public bool SendMailAsync(EmailDto emailDto)
+        public Task<bool> SendMailAsync(EmailDto emailDto)
         {
             try
             {
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.Subject = emailDto.Subject;
-                mailMessage.Body = emailDto.Body;
-                mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
-                mailMessage.To.Add(new MailAddress(emailDto.To));
-                mailMessage.IsBodyHtml = true;
+                string[] words = emailDto.To.Split(", ");
                 var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
                 {
                     Port = 587,
                     Credentials = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, _configuration.GetSection("EmailPassword").Value),
                     EnableSsl = true,
                 };
-                smtpClient.Send(mailMessage);
-                return true;
+                if (words.Length > 1)
+                {
+                    for (int i = 0; i < words.Length; i++)
+                    {
+                        MailMessage mailMessage = new MailMessage();
+                        mailMessage.Subject = emailDto.Subject;
+                        mailMessage.Body = emailDto.Body;
+                        mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
+                        mailMessage.To.Add(new MailAddress(words[i]));
+                        mailMessage.IsBodyHtml = true;
+                        smtpClient.Send(mailMessage);
+                    }
+                }
+                else
+                {
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.Subject = emailDto.Subject;
+                    mailMessage.Body = emailDto.Body;
+                    mailMessage.From = new MailAddress(_configuration.GetSection("EmailUsername").Value);
+                    mailMessage.To.Add(new MailAddress(emailDto.To));
+                    mailMessage.IsBodyHtml = true;
+                    //var smtpClient = new SmtpClient(_configuration.GetSection("EmailHost").Value)
+                    //{
+                    //    Port = 587,
+                    //    Credentials = new NetworkCredential(_configuration.GetSection("EmailUsername").Value, _configuration.GetSection("EmailPassword").Value),
+                    //    EnableSsl = true,
+                    //};
+                    smtpClient.Send(mailMessage);
+                }
+                return Task.FromResult(true);
             }
             catch (Exception)
             {
-                return false;
+                return Task.FromResult(false);
                 throw;
             }
         }

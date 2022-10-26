@@ -28,16 +28,16 @@ namespace ProjectTest.Model
     public class CurrentUserModel
     {
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public string UserName { get; set; }
+        public string? FullName { get; set; }
+        public string? UserName { get; set; }
         public int IsActive { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public int? RoleId { get; set; }
     }
     public class CreateModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
         public int RoleId { get; set; }
     }
     public class LoginModel
@@ -107,5 +107,9 @@ namespace ProjectTest.Model
         public string Email { get; set; }
         public string PassWordNew { get; set; }
         public string SaltKey { get; set; }
+    }
+    public class EmailModel
+    {
+        public string? Email { get; set; }
     }
 }
