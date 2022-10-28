@@ -22,8 +22,7 @@ namespace ProjectTest.Services
         }
         public async Task<ResultModel> GetAllUser(SearchUserModel searchUserModel)
         {
-            var qr = await userRepo.GetAll(searchUserModel);
-            List<UserModel> lst = new List<UserModel>();
+            var qr = await userRepo.GetAll(searchUserModel)
             var listUser = qr.Select(x => new UserModel()
             {
                 Id = x.Id,
@@ -43,6 +42,25 @@ namespace ProjectTest.Services
             //    Data = listUser,
             //    Count = listUser.Count(),
             //};
+            return data;
+        }
+        public async Task<ExportUserModel> GetAllExport(SearchUserModel searchUserModel)
+        {
+            var qr = await userRepo.GetAll(searchUserModel);
+            var listUser = qr.Select(x => new UserModel()
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                FullName = x.FullName,
+                IsActive = x.IsActive,
+            }).OrderBy(x => x.Id).ToList();
+            var data = new ExportUserModel()
+            {
+                Data = listUser,
+                Message = "Successfull",
+                Code = 200,
+                Count = listUser.Count(),
+            };
             return data;
         }
         public async Task<ResultModel> CreateUser(CreateModel input, CurrentUserModel _userInfo)

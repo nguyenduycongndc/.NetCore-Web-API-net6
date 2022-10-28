@@ -112,4 +112,12 @@ namespace ProjectTest.Model
     {
         public string? Email { get; set; }
     }
+
+    public class ExportUserModel
+    {
+        public List<UserModel> Data { get; set; }
+        public int Count { get; set; }
+        public string? Message { get; set; }
+        public int Code { get; set; }
+    }
 }
