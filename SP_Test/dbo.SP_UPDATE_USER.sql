@@ -18,7 +18,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-ALTER PROCEDURE [dbo].[SP_UPDATE_USER] 
+CREATE PROCEDURE [dbo].[SP_UPDATE_USER] 
 	-- Add the parameters for the stored procedure here
 	@id int, 
 	@full_name nvarchar(Max), 

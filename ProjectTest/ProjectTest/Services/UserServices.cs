@@ -22,7 +22,7 @@ namespace ProjectTest.Services
         }
         public async Task<ResultModel> GetAllUser(SearchUserModel searchUserModel)
         {
-            var qr = await userRepo.GetAll(searchUserModel)
+            var qr = await userRepo.GetAll(searchUserModel);
             var listUser = qr.Select(x => new UserModel()
             {
                 Id = x.Id,
