@@ -123,8 +123,8 @@ namespace ProjectTest.Services
         {
             try
             {
-                if ((forgotPassWordModel.PassWordNew != "" || forgotPassWordModel.PassWordNew != null) 
-                    && (forgotPassWordModel.ConfirmPassWord != "" || forgotPassWordModel.ConfirmPassWord != null) 
+                if ((forgotPassWordModel.PassWordNew != "" || forgotPassWordModel.PassWordNew != null)
+                    && (forgotPassWordModel.ConfirmPassWord != "" || forgotPassWordModel.ConfirmPassWord != null)
                     && (forgotPassWordModel.OTP != "" || forgotPassWordModel.OTP != null)
                     && (forgotPassWordModel.PassWordNew == forgotPassWordModel.ConfirmPassWord))
                 {
@@ -160,6 +160,69 @@ namespace ProjectTest.Services
                         SaltKey = salt,
                     };
                     var rs = await userRepo.ForgotPassWordUs(us);
+                    Result = new ResultModel()
+                    {
+                        Data = rs,
+                        Message = (rs == true ? "OK" : "Bad Request"),
+                        Code = (rs == true ? 200 : 400),
+                    };
+                }
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+
+        public async Task<ResultModel> RegisterAsync(RegisterModel registerModel)
+        {
+            try
+            {
+                if ((registerModel.UserName != "" || registerModel.UserName != null)
+                    && (registerModel.Password != "" || registerModel.Password != null)
+                    && (registerModel.Email != "" || registerModel.Email != null))
+                {
+                    var checkUser = userRepo.CheckUser(registerModel.UserName);
+                    if (checkUser.Count() > 0)
+                    {
+                        _logger.LogError("Tài khoản đã tồn tại");
+                        Result = new ResultModel()
+                        {
+                            Message = "Tài khoản đã tồn tại",
+                            Code = 404,
+                        };
+                        return Result;
+                    }
+                    var checkEmail = userRepo.CheckEmail(registerModel.Email);
+                    if (checkEmail.Count() > 0)
+                    {
+                        _logger.LogError("Email này đã được sử dụng");
+                        Result = new ResultModel()
+                        {
+                            Message = "Email này đã được sử dụng",
+                            Code = 404,
+                        };
+                        return Result;
+                    }
+                    string salt = "";
+                    string hashedPassword = "";
+                    if (registerModel != null)
+                    {
+                        var pass = registerModel.Password;
+                        salt = Crypto.GenerateSalt();
+                        var password = registerModel.Password + salt;
+                        hashedPassword = Crypto.HashPassword(password);
+                    }
+                    RegisterSaltModel us = new RegisterSaltModel()
+                    {
+                        UserName = registerModel.UserName.Trim(),
+                        Password = hashedPassword,
+                        SaltKey = salt,
+                        Email = registerModel.Email,
+                    };
+                    var rs = await userRepo.Register(us);
                     Result = new ResultModel()
                     {
                         Data = rs,

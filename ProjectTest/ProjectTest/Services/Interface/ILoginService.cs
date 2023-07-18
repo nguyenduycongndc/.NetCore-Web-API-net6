@@ -11,5 +11,6 @@ namespace ProjectTest.Services.Interface
     {
         public ResultModel Login(InputLoginModel inputModel);
         public Task<ResultModel> ForgotPassWordAsync(ForgotPassWordModel forgotPassWordModel);
+        public Task<ResultModel> RegisterAsync(RegisterModel registerModel);
     }
 }

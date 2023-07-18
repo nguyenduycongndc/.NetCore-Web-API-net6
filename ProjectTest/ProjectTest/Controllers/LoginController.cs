@@ -140,8 +140,26 @@ namespace ProjectTest.Controllers
                 return data;
                 throw;
             }
-
-
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Register")]
+        public async Task<ResultModel> Register([FromBody] RegisterModel registerModel)
+        {
+            try
+            {
+                return await _loginServices.RegisterAsync(registerModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                var data = new ResultModel()
+                {
+                    Message = "Not Found",
+                    Code = 404,
+                };
+                return data;
+            }
         }
     }
 }

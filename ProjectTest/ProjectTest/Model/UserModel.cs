@@ -59,7 +59,7 @@ namespace ProjectTest.Model
         public string PassWord { get; set; }
         public string SaltKey { get; set; }
         public int RoleId { get; set; }
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
     }
 
     public class OutModel
@@ -119,5 +119,20 @@ namespace ProjectTest.Model
         public int Count { get; set; }
         public string? Message { get; set; }
         public int Code { get; set; }
+    }
+
+    public class RegisterModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class RegisterSaltModel
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string SaltKey { get; set; }
     }
 }
