@@ -10,7 +10,19 @@ using ProjectTest.Tool.ServicesTool.IServicesTool;
 using ProjectTest.Tool.ServicesTool;
 using ProjectTest.Tool;
 
+
+
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:7114").WithHeaders().WithMethods();
+                      });
+});
 
 // Add services to the container.
 builder.Services.AddSession();
@@ -84,11 +96,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseAuthentication();    
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.Run();
 
 app.UseSession();

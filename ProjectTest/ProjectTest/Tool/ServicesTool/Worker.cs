@@ -42,7 +42,7 @@ namespace ProjectTest.Tool.ServicesTool
                     {
                         //Interlocked.Increment(ref number);
                         //_logger.LogInformation($"Test: {number}");
-                        var sendMailAuto = await sendMailService.SendMailAsync(inputEmail);
+                        //var sendMailAuto = await sendMailService.SendMailAsync(inputEmail);//Auto send mail
                         await Task.Delay(1000 * 3);
                     }
                 }

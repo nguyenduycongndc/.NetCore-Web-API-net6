@@ -30,7 +30,7 @@ BEGIN
 
     -- Insert statements for procedure here
 	SELECT * from [dbo].[users] as U 
-	where U.email = @email and U.otp = @otp and U.expiration_date_otp = GETDATE()
+	where U.email = @email and U.otp = @otp and U.expiration_date_otp >= GETDATE()
 	UPDATE users
 	SET users.otp = null,
 		users.expiration_date_otp = null
