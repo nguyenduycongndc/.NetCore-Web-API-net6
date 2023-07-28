@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using ProjectTest.Data;
 using ProjectTest.Model;
 using ProjectTest.Repo.Interface;
+using System.Data;
+using System.Data.Common;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web.Helpers;
 
@@ -121,7 +124,7 @@ namespace ProjectTest.Repo
             list = await context.Roles.FromSqlRaw<Roles>(sql, parms.ToArray()).ToListAsync();
             return list;
         }
-        public List<Users> GetDetail(int id)
+        public List<Users> GetDetail(int? id)
         {
             List<Users> list;
             string sql = "EXECUTE SP_DETAIL_USER @user_id";
@@ -218,13 +221,13 @@ namespace ProjectTest.Repo
                 string sql = "EXECUTE SP_UPDATE_USER @id, @full_name, @email, @is_active, @modified_by";
 
                 List<SqlParameter> parms = new List<SqlParameter>
-                { 
+                {
                     new SqlParameter { ParameterName = "@id", Value = user.Id },
                     new SqlParameter { ParameterName = "@full_name", Value = user.FullName },
                     new SqlParameter { ParameterName = "@email", Value = user.Email },
                     new SqlParameter { ParameterName = "@is_active", Value = user.IsActive },
                     new SqlParameter { ParameterName = "@modified_by", Value = user.ModifiedBy },
-                }; 
+                };
 
                 var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
                 return true;
@@ -243,10 +246,10 @@ namespace ProjectTest.Repo
                 string sql = "EXECUTE SP_DELETE_USER @id, @deleted_by";
 
                 List<SqlParameter> parms = new List<SqlParameter>
-                { 
+                {
                     new SqlParameter { ParameterName = "@id", Value = id },
                     new SqlParameter { ParameterName = "@deleted_by", Value = _userInfo.Id },
-                }; 
+                };
 
                 var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
                 return true;
@@ -329,5 +332,58 @@ namespace ProjectTest.Repo
             }
         }
         #endregion
+        #region change password
+        public async Task<bool> ChangePassWordRepo(ChangePassWordLoginSuccessModel changePassWordLoginSuccessModel)
+        {
+            string sql = "EXECUTE SP_CHANGE_PASSWORD_LOGIN @id, @passwordnew, @salt";
+
+            List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@id", Value = changePassWordLoginSuccessModel.Id },
+                    new SqlParameter { ParameterName = "@passwordnew", Value = changePassWordLoginSuccessModel.PassWordNew },
+                    new SqlParameter { ParameterName = "@salt", Value = changePassWordLoginSuccessModel.SaltKey },
+                };
+
+            var dt = await context.Database.ExecuteSqlRawAsync(sql, parms.ToArray());
+            return true;
+        }
+        #endregion
+
+
+        public List<RsDetailUserModel> GetDetailUser(int? id)
+        {
+            string sql = "EXECUTE SP_GET_DETAIL_USER @user_id";
+            List<SqlParameter> parms = new List<SqlParameter>
+                {
+                    new SqlParameter { ParameterName = "@user_id", Value = id },
+                };
+
+            var list = context.Set<RsDetailUserModel>().FromSqlRaw(sql, parms.ToArray()).ToList();
+            return list;
+        }
+        //public List<RsDetailUserModel>? GetDetailUser(int? id)
+        //{
+        //    List<RsDetailUserModel> list;
+        //    string sql = "EXECUTE SP_GET_DETAIL_USER @user_id";
+        //    List<SqlParameter> parms = new List<SqlParameter>
+        //    { 
+        //        new SqlParameter { ParameterName = "@user_id", Value = id },
+        //    };
+        //    var list1 = context.Users.FromSqlRaw(sql, parms.ToArray()).ToList();
+        //    list = list1.Select(u => new RsDetailUserModel
+        //    {
+        //        Id = u.Id,
+        //        FullName = u.FullName,
+        //        UserName = u.UserName,
+        //        DateOfJoining = u.DateOfJoining,
+        //        RoleId = u.Roles.Id,
+        //        IsActive = u.IsActive,
+        //        Email = u.Email,
+        //        CreatedAt = u.CreatedAt,
+        //        Role = context.Roles.FirstOrDefault(r => r.Id == u.RoleId)?.Name,
+        //        Description = context.Roles.FirstOrDefault(r => r.Id == u.RoleId)?.Description,
+        //    }).ToList();
+        //    return list;
+        //}
     }
 }

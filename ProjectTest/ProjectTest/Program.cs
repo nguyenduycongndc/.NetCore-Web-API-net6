@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:7114").WithHeaders().WithMethods();
+                          policy.WithOrigins("https://localhost:7114").WithHeaders().WithMethods();
                       });
 });
 
@@ -66,6 +66,7 @@ builder.Services.AddScoped<IUserService, UserServices>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ISendMailService, SendMailService>();
 builder.Services.AddScoped<IDataEmailRepo, DataEmailRepo>();
+builder.Services.AddScoped<IIndividualRepo, IndividualRepo>();
 
 builder.Services.AddSingleton<IWorker, Worker>();
 builder.Services.AddHostedService<DerivedBackgroundPrinter>();

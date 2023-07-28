@@ -173,7 +173,7 @@ namespace ProjectTest.Services
                         FullName = rs[0].FullName,
                         IsActive = rs[0].IsActive,
                         Email = rs[0].Email,
-                        RoleId = rs[0].RoleId,
+                        //RoleId = rs[0].RoleId,
                     };
 
                     Result = new ResultModel()
@@ -275,5 +275,117 @@ namespace ProjectTest.Services
                 return Result;
             }
         }
+        #region Change PassWord login
+        public async Task<ResultModel> ChangePassWordService(ChangePassWordLoginModel input)
+        {
+            try
+            {
+                string salt = "";
+                string hashedPassword = "";
+                if (input != null)
+                {
+                    var data = userRepo.GetDetail(input.Id);
+                    if (data == null)
+                    {
+                        Result = new ResultModel()
+                        {
+                            Message = "Tài khoản này không tồn tại",
+                            Code = 403,
+                        };
+                        return Result;
+                    }
+                    //var user = userRepo.CheckUser(data[0].UserName);
+                    //if (user == null)
+                    //{
+                    //    return false;
+                    //}
+                    var checkPass = Crypto.VerifyHashedPassword(data[0].Password, input.PassWordOld + data[0].SaltKey);
+                    if (!checkPass)
+                    {
+                        Result = new ResultModel()
+                        {
+                            Message = "Mật khẩu cũ không đúng",
+                            Code = 400,
+                        };
+                        return Result;
+                    }
+                    if (input.PassWordNew != input.ConfirmPassWordNew)
+                    {
+                        _logger.LogError("Xác nhận mật khẩu không chính xác");
+                        Result = new ResultModel()
+                        {
+                            Message = "Xác nhận mật khẩu không chính xác",
+                            Code = 400,
+                        };
+                        return Result;
+                    }
+                    var pass = input.PassWordNew;
+                    salt = Crypto.GenerateSalt();
+                    var password = input.PassWordNew + salt;
+                    hashedPassword = Crypto.HashPassword(password);
+                }
+                ChangePassWordLoginSuccessModel us = new ChangePassWordLoginSuccessModel()
+                {
+                    Id = (int)input.Id,
+                    PassWordNew = hashedPassword,
+                    SaltKey = salt,
+                };
+                var rs = await userRepo.ChangePassWordRepo(us);
+                Result = new ResultModel()
+                {
+                    Data = rs,
+                    Message = (rs == true ? "OK" : "Bad Request"),
+                    Code = (rs == true ? 200 : 400),
+                };
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        #endregion
+        #region GetDetailUser
+        public ResultModel GetDetailUserModels(int Id)
+        {
+            try
+            {
+                var rs = userRepo.GetDetailUser(Id);
+                if (rs.Count == 0)
+                {
+                    return Result;
+                }
+                else
+                {
+                    var detailUs = new GetDataDetailUserModel()
+                    {
+                        Id = rs[0].Id,
+                        UserName = rs[0].user_name,
+                        FullName = rs[0].full_name,
+                        IsActive = rs[0].is_active,
+                        Email = rs[0].email,
+                        RoleId = rs[0].roles_id,
+                        Role = rs[0].name,
+                        Description = rs[0].description,
+                    };
+
+                    Result = new ResultModel()
+                    {
+                        Data = detailUs,
+                        Message = "OK"/*"Successfull"*/,
+                        Code = 200,
+                    };
+
+                    return Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return Result;
+            }
+        }
+        #endregion
     }
 }

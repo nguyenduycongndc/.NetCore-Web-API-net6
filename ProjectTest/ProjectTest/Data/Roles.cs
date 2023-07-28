@@ -13,7 +13,7 @@ namespace ProjectTest.Data
     {
         public Roles()
         {
-            this.UsersRoles = new HashSet<UsersRoles>();
+            Users = new HashSet<Users>();
         }
         [Key]
         [Column("id")]
@@ -60,7 +60,6 @@ namespace ProjectTest.Data
         [Column("deleted_by")]
         [JsonPropertyName("deleted_by")]
         public int? DeletedBy { get; set; }
-
-        public virtual ICollection<UsersRoles> UsersRoles { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

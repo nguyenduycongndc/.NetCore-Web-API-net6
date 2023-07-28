@@ -108,7 +108,7 @@ namespace ProjectTest.Services
                     Id = data[0].Id,
                     FullName = data[0].FullName,
                     UserName = data[0].UserName,
-                    RoleId = data[0].RoleId,
+                    //RoleId = data[0].Roles,
                 };
                 return user;
             }

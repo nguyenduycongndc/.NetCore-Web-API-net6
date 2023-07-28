@@ -10,10 +10,6 @@ namespace ProjectTest.Data
     [Table("users")]
     public class Users
     {
-        public Users()
-        {
-            UsersRoles = new HashSet<UsersRoles>();
-        }
         [Key]
         [Column("id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -31,10 +27,6 @@ namespace ProjectTest.Data
         [Column("date_of_joining")]
         [JsonPropertyName("date_of_joining")]
         public DateTime? DateOfJoining { get; set; }
-
-        [Column("role_id")]
-        [JsonPropertyName("role_id")]
-        public int? RoleId { get; set; }
 
         [Column("is_active")]
         [JsonPropertyName("is_active")]
@@ -87,6 +79,10 @@ namespace ProjectTest.Data
         [Column("otp")]
         [JsonPropertyName("otp")]
         public int? OTP { get; set; }
-        public virtual ICollection<UsersRoles> UsersRoles { get; set; }
+
+        [JsonPropertyName("roles_id")]
+        public int? RoleId { get; set; }
+        [ForeignKey("roles_id")]
+        public virtual Roles Roles { get; set; }
     }
 }

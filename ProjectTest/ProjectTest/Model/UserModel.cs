@@ -135,4 +135,41 @@ namespace ProjectTest.Model
         public string Email { get; set; }
         public string SaltKey { get; set; }
     }
+    public class ChangePassWordLoginModel
+    {
+        public int? Id { get; set; }
+        public string PassWordOld { get; set; }
+        public string PassWordNew { get; set; }
+        public string ConfirmPassWordNew { get; set; }
+    }
+    public class ChangePassWordLoginSuccessModel
+    {
+        public int Id { get; set; }
+        public string PassWordNew { get; set; }
+        public string SaltKey { get; set; }
+    }
+    public class GetDataDetailUserModel
+    {
+        public int Id { get; set; }
+        public string? FullName { get; set; }
+        public string? UserName { get; set; }
+        public int IsActive { get; set; }
+        public string? Email { get; set; }
+        public int? RoleId { get; set; }
+        public string Role { get; set; }
+        public string Description { get; set; }
+    }
+    public class RsDetailUserModel
+    {
+        public int Id { get; set; }
+        public string? full_name { get; set; }
+        public string? user_name { get; set; }
+        public DateTime? date_of_joining { get; set; }
+        public int roles_id { get; set; }
+        public int is_active { get; set; }
+        public string? email { get; set; }
+        public DateTime? created_at { get; set; }
+        public string? name { get; set; }
+        public string? description { get; set; }
+    }
 }

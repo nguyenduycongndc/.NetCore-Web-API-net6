@@ -18,27 +18,38 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[SP_REGISTER] 
+CREATE PROCEDURE [dbo].[SP_CHANGE_PASSWORD_LOGIN] 
 	-- Add the parameters for the stored procedure here
-	@user_name nvarchar(MAX),
-	@password nvarchar(MAX),
-	@salt nvarchar(MAX),
-	@email nvarchar(MAX)
+	@id nvarchar(MAX),
+	@passwordnew nvarchar(MAX),
+	@salt nvarchar(MAX)
 AS
 BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
 	declare @Result bit;
 	SET NOCOUNT ON;
-	insert into [dbo].[users]( [user_name], [full_name], [date_of_joining], [is_active],[email], [password], [salt], [created_by], [created_at], [roles_id]) 
-		VALUES (@user_name, LOWER(@user_name), GETDATE(), 1, @email, @password, @salt, Null,  GETDATE(), 2);
-		DECLARE @u_id int = (select Top 1 id from [dbo].[users] as U where U.user_name = @user_name and U.is_active = 1 ORDER BY created_at)
-		--IF (ISNULL(@u_id, '') <> '')
-		--BEGIN
-		--	insert into [dbo].[users_roles]([users_id], [roles_id]) 
-		--	VALUES (@u_id, 2);
-		--END
+	If exists (SELECT * FROM users WHERE id = @id)
+    -- Insert statements for procedure here
 	BEGIN
-		set @Result = 1;
-		select @Result as Rs
-	END
+			UPDATE users
+					set 
+						users.modified_at = GETDATE(),
+						users.otp = null,
+						users.expiration_date_otp = null,
+						users.password = @passwordnew,
+						users.salt = @salt
+					from users 
+					WHERE users.id = @id
+			BEGIN
+				set @Result = 1;
+				select @Result as Rs
+			END
+		END
+	ELSE
+		BEGIN
+			set @Result = 0;
+			select @Result as Rs
+		END
 END
 GO

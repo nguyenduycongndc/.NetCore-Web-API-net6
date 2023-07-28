@@ -12,5 +12,9 @@ namespace ProjectTest.Services.Interface
         public ResultModel GetDetailModels(int id);
         //public CurrentUserModel GetDetailModels(int id);
         public Task<ResultModel> DeleteUser(int id, CurrentUserModel _userInfo);
+        public Task<ResultModel> ChangePassWordService(ChangePassWordLoginModel input);
+        public ResultModel GetDetailUserModels(int id);
+
+
     }
 }
