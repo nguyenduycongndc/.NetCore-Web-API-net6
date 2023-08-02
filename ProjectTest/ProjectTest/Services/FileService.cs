@@ -80,11 +80,11 @@ namespace ProjectTest.Services
             {
                 var detailFile = await SaveFile(fileModel.File);
 
-                if (fileModel.File != null)
-                {
-                    fileModel.Path = detailFile.FileName;
-                    fileModel.Name = detailFile.OriginalFileName;
-                }
+                //if (fileModel.File != null)
+                //{
+                //    fileModel.Path = detailFile.FileName;
+                //    fileModel.Name = detailFile.OriginalFileName;
+                //}
                 DataUpfile usfi = new DataUpfile()
                 {
                     Name = detailFile.OriginalFileName,

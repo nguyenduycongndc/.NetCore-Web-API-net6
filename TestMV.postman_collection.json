@@ -1,0 +1,268 @@
+{
+	"info": {
+		"_postman_id": "9806b9fb-d5f3-4391-abce-e37fd2faad34",
+		"name": "TestMV",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"admin\",\r\n  \"passWord\": \"123123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/LoginUser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"LoginUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJuYmYiOjE2NjkyNzk5MjgsImV4cCI6MTY2OTM2NjMyOCwiaXNzIjoiaHR0cDovLzo6ODAiLCJhdWQiOiJodHRwOi8vOjo4MCJ9.Of1esEL6mLuNW9G1TcXznBRWb_FT-WPjkCkHolbgrbn_Oe0HcGD8c1ZrGogeIe9QP5OrlPYxmWxFP9W8Z3JYbw",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"admin1\",\r\n  \"password\": \"123456\",\r\n  \"roleId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/api/User/Create",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"api",
+						"User",
+						"Create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7197/SendOTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7197/SendOTP?email=mrfishhotro@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"SendOTP"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "mrfishhotro@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJuYmYiOjE2Njk2MTg4OTMsImV4cCI6MTY2OTcwNTI5MywiaXNzIjoiaHR0cDovLzo6ODAiLCJhdWQiOiJodHRwOi8vOjo4MCJ9.FRUgBLio2S0aH6SlfFcUc1TNnhiiWDZQOhQ7ghg1wP94YFGbB4sYIsmGEwHgd1tXQb8APrNx5aTGWzel8O6scQ",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_name\": \"\",\r\n  \"is_active\": -1,\r\n  \"start_number\": 0,\r\n  \"page_size\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/api/User/Search",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"api",
+						"User",
+						"Search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJuYmYiOjE2Njk2MjAwODYsImV4cCI6MTY2OTcwNjQ4NiwiaXNzIjoiaHR0cDovLzo6ODAiLCJhdWQiOiJodHRwOi8vOjo4MCJ9.4GrZKz_D9C9hgrS9iH5ziPOH98T5YyR7Id-OITF1I679y_o57othTrxppzApkLOd6gT_-VDpVymdVddV6XGCQQ",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"fullName\": \"admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"is_active\": 1,\r\n    \"modified_by\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/api/User/Update",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"api",
+						"User",
+						"Update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " https://localhost:7197/api/SendMail/ExportSampleExcel?fileName=SampleFile.xlsx",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJuYmYiOjE2NzA1NTAxMjQsImV4cCI6MTY3MDYzNjUyNCwiaXNzIjoiaHR0cDovLzo6ODAiLCJhdWQiOiJodHRwOi8vOjo4MCJ9.BdeIJZ49EW2qWkNBeK8I-cJ5f1e6ZeCcksZAVLEuD3DMU5CivPjnP51z-xQkwB7-UIeR-okYXFeqDEEIXW5XXQ",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://localhost:7197/api/SendMail/ExportSampleExcel?fileName=SampleFile.xlsx",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"api",
+						"SendMail",
+						"ExportSampleExcel"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "SampleFile.xlsx"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7197/api/User/ChangePassWord",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJuYmYiOjE2NzE0MTk5MjMsImV4cCI6MTY3MTUwNjMyMywiaXNzIjoiaHR0cDovLzo6ODAiLCJhdWQiOiJodHRwOi8vOjo4MCJ9.RXiKmjVY6lvprHBgmw_PbSRYuo3NbtTw7K9kJNTxSoSBrOvV_4X1TTUPX0JplhWhGth0PWL9f7nlbTcL1mMqWA",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": 1,\r\n    \"PassWordOld\": \"123456\",\r\n    \"PassWordNew\": \"123456\",\r\n    \"ConfirmPassWordNew\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/api/User/ChangePassWord",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"api",
+						"User",
+						"ChangePassWord"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7197/ForgotPassWord",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Email\": \"mrfishhotro@gmail.com\",\r\n  \"OTP\": \"622610\",\r\n  \"NewPassWord\": \"123123\",\r\n  \"ConfirmPassWord\": \"123123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7197/ForgotPassWord",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7197",
+					"path": [
+						"ForgotPassWord"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "5b5c3bfa-f5a5-49f2-bfcd-420d237a1dd0",
+		"name": "DetailStaff",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:6789/api/MStaffs/DetailStaff?STAFF_CODE=st32&CLOUD_CODE=79980337",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/DetailStaff?STAFF_CODE=st32&CLOUD_CODE=79980337",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"DetailStaff"
+					],
+					"query": [
+						{
+							"key": "STAFF_CODE",
+							"value": "st32"
+						},
+						{
+							"key": "CLOUD_CODE",
+							"value": "79980337"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/Authentication?STAFF_CODE=00174&PASSWORD=123456aA@&CLOUD_CODE=79998003",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "BeeSys H/bX08OGFgeOE2T4+7PDd8/jcCjpwJQX7ot030jK0lpr1MM+u8v343eWFjsFy/P/gS/5+F1LS1QfElQYMTksclWOLg9XGuGpi/KKYBPuyB1a+F2XvK6jI8FQyH6Lg686rcMQ89AvpmtMuxPSbmtq+QXQmpVr1w4A+Gfk2+tZnDb8mHJtGFRdFBWMnnXlBo7yfsiJsDKUSGsRoMfzLuWP2GDCfQBGvX0HwBBXY8bIXLbG+N4z9vA1IvIceskl1Sq2vbSZU2AC/mVMv1bssnWWhw==",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/Authentication?STAFF_CODE=00174&PASSWORD=123456aA@&CLOUD_CODE=79998003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"Authentication"
+					],
+					"query": [
+						{
+							"key": "STAFF_CODE",
+							"value": "00174"
+						},
+						{
+							"key": "PASSWORD",
+							"value": "123456aA@"
+						},
+						{
+							"key": "CLOUD_CODE",
+							"value": "79998003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/Sync/GetTokenKeyFromFC?cloudCode=79980337",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6789/api/Sync/GetTokenKeyFromFC?cloudCode=79980337",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"Sync",
+						"GetTokenKeyFromFC"
+					],
+					"query": [
+						{
+							"key": "cloudCode",
+							"value": "79980337"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

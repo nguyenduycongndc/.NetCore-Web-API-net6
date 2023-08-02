@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "c3954b5b-df32-40d0-9f14-1382b723a6f4",
+		"name": "Admin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:6789/api/MStaffs/SearchAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"NAME\": \"Tra\",\r\n  \"ROLES\": 0,\r\n  \"STATUS\":0,\r\n  \"pSkip\": 1,\r\n  \"pTake\": 30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/SearchAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"SearchAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/CreateAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"FIRSTNAME\": \"Test\",\r\n  \"SURNAME\":\"20\",\r\n  \"GROUPNAME\":\"\",\r\n  \"ROLES\": 1,\r\n  \"UPD_USER\": \"09\",\r\n  \"NOTE\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/SearchAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"SearchAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/GetAllAdmin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/GetAllAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"GetAllAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/DetailAdmin?Id=d3a4404a-756c-435d-b3d2-a5519f5f1a76",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/DetailAdmin?Id=d3a4404a-756c-435d-b3d2-a5519f5f1a76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"DetailAdmin"
+					],
+					"query": [
+						{
+							"key": "Id",
+							"value": "d3a4404a-756c-435d-b3d2-a5519f5f1a76"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/RenewPassWordAdmin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"UNIQ_KEY\": \"bc85fc78-91f4-4e6f-8f5a-0c51df341524\",\r\n  \"PASSWORD\": \"123456\",\r\n  \"UPD_USER\":\"09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/RenewPassWordAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"RenewPassWordAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/UpdateAdmin",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"UNIQ_KEY\": \"bc85fc78-91f4-4e6f-8f5a-0c51df341524\",\r\n  \"FIRSTNAME\": \"Testttt\",\r\n  \"SURNAME\": \"123\",\r\n  \"AVAILABLE_FLG\":1,\r\n  \"ADMIN_ACCOUNT_FLG\": 3,\r\n  \"DATE_OF_BIRTH\": \"2019/10/15\",\r\n  \"SEX\": 2,\r\n  \"NOTE\":\"\",\r\n  \"UPD_USER\":\"09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/UpdateAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"UpdateAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MStaffs/GetallGroupAdmin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6789/api/MStaffs/GetallGroupAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MStaffs",
+						"GetallGroupAdmin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

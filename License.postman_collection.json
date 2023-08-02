@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "220c64fd-41b3-47c1-806f-b35620accf55",
+		"name": "License",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:6789/api/MLicense/UpdateLicense",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"UNIQ_KEY\": \"a9158744-6baf-468e-9c92-46e1b6a72f9f\",\r\n  \"CONTRACTOR_NAME\": \"Test1112\",\r\n  \"AVAILABLE_FLG\": 1,\r\n  \"END_DATE\": \"2022-11-02\",\r\n  \"UPD_USER\": \"09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MLicense/UpdateLicense",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MLicense",
+						"UpdateLicense"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MLicense/DetailLicense?Id=5aba557d-7ec3-4339-972f-40ce99a4ce72",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"CLOUD_CODE\": \"79998003\",\r\n  \"NAME\": \"\",\r\n  \"STATUS\":1,\r\n  \"pSkip\": 1,\r\n  \"pTake\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MLicense/DetailLicense?Id=5aba557d-7ec3-4339-972f-40ce99a4ce72",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MLicense",
+						"DetailLicense"
+					],
+					"query": [
+						{
+							"key": "NAME",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "disableStatus",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "pSkip",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "pTake",
+							"value": "30",
+							"disabled": true
+						},
+						{
+							"key": "Id",
+							"value": "5aba557d-7ec3-4339-972f-40ce99a4ce72"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6789/api/MLicense/ContractInformation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"CLOUD_CODE\": \"12312312\",\r\n  \"NAME\": \"\",\r\n  \"STATUS\":1,\r\n  \"pSkip\": 1,\r\n  \"pTake\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6789/api/MLicense/ContractInformation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6789",
+					"path": [
+						"api",
+						"MLicense",
+						"ContractInformation"
+					],
+					"query": [
+						{
+							"key": "CLOUD_CODE",
+							"value": "79998003",
+							"disabled": true
+						},
+						{
+							"key": "NAME",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "disableStatus",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "pSkip",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "pTake",
+							"value": "30",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
